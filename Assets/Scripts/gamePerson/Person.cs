@@ -8,7 +8,7 @@ public class Person : MonoBehaviour
     public Sprite bigHead;
     public int health;
     public int spirit;
-    public int activity;
+    public int mood;
     public int Event;
     public bool Finish;
     public bool Exist;

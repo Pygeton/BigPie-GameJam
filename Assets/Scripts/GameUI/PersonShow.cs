@@ -10,14 +10,14 @@ public class PersonShow : MonoBehaviour
     public Text personName;
     public Text personHealth;
     public Text personSpirit;
-    public Text personActivity;
+    public Text personMood;
     public Text exist;
     public Text eventSwitch;
     private void Update()
     {
         personHealth.text ="健康: "+ person.health.ToString();
         personSpirit.text = "精力: " + person.spirit.ToString();
-        personActivity.text = "心情: " + person.activity.ToString();
+        personMood.text = "心情: " + person.mood.ToString();
         if(person.Exist==false)
         {
             exist.text = "不在";
