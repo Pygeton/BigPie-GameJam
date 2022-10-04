@@ -21,7 +21,7 @@ public class StartManager : MonoBehaviour
     }
     void StartGame()//开始游戏
     {
-        SceneManager.LoadSceneAsync("MainScene");
+        SceneManager.LoadSceneAsync("GameScene");
     }
     void QuitGame()//退出游戏
     {
