@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Person : MonoBehaviour
+public class Player : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public int PlayerEvent;
     void Start()
     {
         
@@ -14,5 +14,9 @@ public class Person : MonoBehaviour
     void Update()
     {
         
+    }
+    public void ClickActivity()
+    {
+        GameManager.instance.TextScreenShow(PlayerEvent);
     }
 }
