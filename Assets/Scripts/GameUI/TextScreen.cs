@@ -8,6 +8,7 @@ public class TextScreen : MonoBehaviour
     public List<Choise> buttons = new List<Choise>();
     public Text screenText;
     public Button nextBtn;
+    private Person p;
     // Start is called before the first frame update
     void Start()
     {
@@ -111,7 +112,7 @@ public class TextScreen : MonoBehaviour
                     buttons[2].GetComponent<Button>().onClick.AddListener(E5B2);
                     break;
                 }
-                
+
             case 6://噩耗
                 {
                     screenText.text = GameManager.instance.tempPerson.personName + "在刷朋友圈的时间得知一则消息，他的朋友因身体原因于昨晚去世了...";
@@ -121,7 +122,7 @@ public class TextScreen : MonoBehaviour
                     buttons[1].GetComponent<Button>().onClick.AddListener(E6B1);
                     break;
                 }
-                
+
             case 7://We gonna party！
                 {
                     screenText.text = GameManager.instance.tempPerson.personName + "收到了他朋友的一通电话，原来是他被邀请去参加一个派对，听着很有意思！";
@@ -131,7 +132,7 @@ public class TextScreen : MonoBehaviour
                     buttons[1].GetComponent<Button>().onClick.AddListener(E7B1);
                     break;
                 }
-                
+
             case 8://两眼一黑
                 {
                     screenText.text = GameManager.instance.tempPerson.personName + "的精神终究还是不堪重负，只见他两眼一黑，向后一倒，晕了过去...";
@@ -183,14 +184,20 @@ public class TextScreen : MonoBehaviour
                 buttons[1].SetText("花钱请人来维修一下");
                 buttons[0].GetComponent<Button>().onClick.AddListener(E14B0);
                 buttons[1].GetComponent<Button>().onClick.AddListener(E14B1);
-                if (GameManager.instance.tempPerson.name == "VINK")
+                if (GameManager.instance.tempPerson.personName == "VINK")
                 {
                     buttons[2].SetText("自己拆开电脑看看");
                     buttons[2].GetComponent<Button>().onClick.AddListener(E14B2);
                 }
                 break;
             case 15://献计
-                /*目前实现方法未知，参见文档*/
+                int result = RandomTool.GenerateRandomInt(0, GameManager.instance.workPersons.Count - 1);
+                p = GameManager.instance.workPersons[result];
+                screenText.text = "在一次讨论中，" + p.personName + "认为自己想到了一个很不错的想法，但是如果接纳了，" + GameManager.instance.tempPerson.personName + "的工作量会增加不少，怎么决定呢...？";
+                buttons[0].SetText("接纳");
+                buttons[1].SetText("拒绝");
+                buttons[0].GetComponent<Button>().onClick.AddListener(E15B0);
+                buttons[1].GetComponent<Button>().onClick.AddListener(E15B1);
                 break;
             case 16://开摆
                 {
@@ -200,10 +207,14 @@ public class TextScreen : MonoBehaviour
                     break;
                 }
             case 17://学美术
-                /*目前实现方法未知，参见文档*/
+                screenText.text = GameManager.instance.tempPerson.personName + "觉得自己画术不精，正好收到爹咪的邀请一起学习，他不想错过这个机会。";
+                buttons[0].SetText("学学学！");
+                buttons[1].SetText("还是开发重要");
+                buttons[0].GetComponent<Button>().onClick.AddListener(E17B0);
+                buttons[1].GetComponent<Button>().onClick.AddListener(E17B1);
                 break;
             case 18://心灵大师
-                screenText.text = GameManager.instance.tempPerson.personName + "正处于开发的困难时期，正在这个时候，他发现电脑上有一则广告：”心灵大师特里斯科特，揭露你心中的疑惑，只要99！”";
+                screenText.text = GameManager.instance.tempPerson.personName + "正处于开发的困难时期，正在这个时候，他发现电脑上有一则广告：“心灵大师特里斯科特，揭露你心中的疑惑，只要99！”";
                 buttons[0].SetText("也许可以试着去咨询一下？");
                 buttons[1].SetText("谁信这种东西啊");
                 buttons[0].GetComponent<Button>().onClick.AddListener(E18B0);
@@ -248,7 +259,7 @@ public class TextScreen : MonoBehaviour
                 }
             case 1000://活动:无
                 {
-                    screenText.text = "测试player的finish是否变成true";
+                    screenText.text = "今天没什么活动，好好休息吧。";
                     GameManager.instance.player.finish = true;
                     break;
                 }
@@ -258,7 +269,7 @@ public class TextScreen : MonoBehaviour
                     foreach(var p in GameManager.instance.workPersons)
                     {
                         p.spirit -= 5;
-                        GameManager.instance.create += 50;
+                        GameManager.instance.create += 5;
                     }
                     GameManager.instance.player.finish = true;
                     break;
@@ -321,11 +332,11 @@ public class TextScreen : MonoBehaviour
                             {
                                 p.SetDelay(i,Attribute.Null,0,false);
                             }
-                            p.SetDelay(5,Attribute.Money,150,true);
+                            p.SetDelay(5,Attribute.Money,500,true);
 
                         }
                     }
-                    GameManager.instance.SetDelayedText(5, "芜湖！为团队带来了一笔巨款！");
+                    GameManager.instance.SetDelayedText(5, "芜湖！兼职工作为团队带来了一笔巨款！");
                     GameManager.instance.player.finish = true;
                     break;
                 }
@@ -362,8 +373,11 @@ public class TextScreen : MonoBehaviour
     //——————————————————————————事件按钮——————————————————————————
     void E100B0()
     {
+        GameManager.instance.tempPerson.spirit += 5;
+        GameManager.instance.tempPerson.health += 5;
+        GameManager.instance.tempPerson.mood += 5;
         Finish();
-        screenText.text = "再接再厉！";
+        screenText.text = "再接再厉！(各项属性少量增加）";
     }
     void E1B0()
     {
@@ -374,11 +388,11 @@ public class TextScreen : MonoBehaviour
     }
     void E1B1()
     {
-        GameManager.instance.tempPerson.Exist = false;//today
+        GameManager.instance.tempPerson.Exist = false;
         GameManager.instance.tempPerson.spirit += 15;
         GameManager.instance.tempPerson.health += 30;
         Finish();
-        screenText.text = "你去医院看了一下医生，医生给你开了一些药，并建议你好好休息。（今天无法再进行开发,健康+30，精力+15）";
+        screenText.text = "你去医院看了一下医生，医生给你开了一些药，并建议你好好休息。（当前阶段无法再进行开发,健康+30，精力+15）";
     }
     void E2B0()
     {
@@ -416,8 +430,8 @@ public class TextScreen : MonoBehaviour
     }
     void E4B0()
     {
-        GameManager.instance.tempPerson.Exist = false;//nextday
-        GameManager.instance.tempPerson.mood += 50;
+        GameManager.instance.tempPerson.SetDelay(1, Attribute.Null, 0, false);
+        GameManager.instance.tempPerson.SetDelay(2, Attribute.Null, 0, false);
         Finish();
         screenText.text = "长期在外，能和父母视频通话的时间都很少，更不要说陪在身边了，还是好好享受一下家人陪伴的感觉吧，开发任务稍后再做也没事。（第二天无法进行开发，心情+50）";
     }
@@ -430,19 +444,19 @@ public class TextScreen : MonoBehaviour
     void E5B0()
     {
         GameManager.instance.tempPerson.Exist = false;
-        int result = UnityEngine.Random.Range(0, 3);
+        int result = RandomTool.GenerateRandomInt(0, 2);
         switch (result)
         {
             case 0:
                 GameManager.instance.tempPerson.spirit -= 10;
-                //img
+                GameManager.instance.create += 20;
                 Finish();
                 screenText.text = "你花了小半天时间静心学习了一番，现在你不但可以解决目前遇到的问题，而且还有了相关的知识储备。（当前阶段无法再进行开发，精力-10，团队创想力+20）";
                 break;
             case 1:
                 GameManager.instance.tempPerson.spirit -= 5;
                 GameManager.instance.tempPerson.mood += 10;
-                //img
+                GameManager.instance.create += 5;
                 Finish();
                 screenText.text = "你花了一点时间解决了当前遇到的问题，但是giligili的推广让你陶醉其中，不过就结果来说你还是挺快乐的。（当前阶段无法再进行开发，精力-5，团队创想力+5，心情+10）";
                 break;
@@ -456,18 +470,18 @@ public class TextScreen : MonoBehaviour
     }
     void E5B1()
     {
-        //img
+        GameManager.instance.create += 10;
         Finish();
         screenText.text = "你在请教开发组成员的同时与他们交流了一下自己的想法，得到了一些灵感。（团队创想力+10）";
     }
     void E5B2()
     {
-        int result = UnityEngine.Random.Range(0, 2);
+        int result = RandomTool.GenerateRandomInt(0, 1);
         switch (result)
         {
             case 0:
                 GameManager.instance.tempPerson.mood += 25;
-                //img
+                GameManager.instance.create += 10;
                 Finish();
                 screenText.text = "水滴石穿，你在冥思苦想许久后灵感涌现了上来，问题成功解决了！你为问题的解决而感到非常激动。（团队创想力+10，心情+25）";
                 break;
@@ -495,7 +509,7 @@ public class TextScreen : MonoBehaviour
     void E7B0()
     {
         GameManager.instance.tempPerson.Exist = false;
-        int result = UnityEngine.Random.Range(0, 3);
+        int result = RandomTool.GenerateRandomInt(0, 2);
         switch (result)
         {
             case 0:
@@ -507,9 +521,9 @@ public class TextScreen : MonoBehaviour
             case 1:
                 GameManager.instance.tempPerson.spirit -= 20;
                 GameManager.instance.tempPerson.mood += 20;
-                //img
+                GameManager.instance.create += 20;
                 Finish();
-                screenText.text = "你不但在派对上玩的非常开心，更重要的是你认识到了一位bsdn的知名博主！派对后，你加了他的微信，交流了许多想法，得到了一些建议，你感到自己的思维水平得到了提升。（当前阶段无法再进行开发，，团队创想力+20，精力-20，心情+20）";
+                screenText.text = "你不但在派对上玩的非常开心，更重要的是你认识到了一位bsdn的知名博主！派对后，你加了他的微信，交流了许多想法，得到了一些建议，你感到自己的思维水平得到了提升。（当前阶段无法再进行开发，团队创想力+20，精力-20，心情+20）";
                 break;
             case 2:
                 GameManager.instance.tempPerson.mood -= 20;
@@ -526,23 +540,25 @@ public class TextScreen : MonoBehaviour
     }
     void E8B0()
     {
-        GameManager.instance.tempPerson.Exist = false;//2round
+        GameManager.instance.tempPerson.Exist = false;
+        GameManager.instance.tempPerson.SetDelay(1, Attribute.Null, 0, false);
+        GameManager.instance.tempPerson.SetDelay(2, Attribute.Health, -20, true);
+        GameManager.instance.SetDelayedText(2, "你缓缓睁开眼睛，一看电脑，发现竟然过了整整一天，你感觉头晕目眩...（健康-20）");
         Finish();
-        screenText.text = "你缓缓睁开眼睛，一看电脑，发现竟然过了整整一天，你感觉头晕目眩...（当前和下一阶段都不能再进行开发，健康-20）";
+        screenText.text = "你在房间里晕了过去。(当前和下一阶段都不能再进行开发）";
     }
     void E9B0()
     {
         GameManager.instance.tempPerson.Exist = false;
-        //money-500
+        GameManager.instance.money -= 500;
         GameManager.instance.tempPerson.mood -= 10;
         Finish();
         screenText.text = "你回过神来才发现显示器已经被你一拳砸碎了，你现在不但什么都做不了，而且还要花钱买新显示器，心情更糟糕了...（当前阶段不能再进行开发，团队资金-500，心情-10）";
     }
     void E10B0()
     {
-        GameManager.instance.tempPerson.runAway = true;//out
-        //othermood-10
-       foreach(var p in GameManager.instance.workPersons)
+        GameManager.instance.tempPerson.runAway = true;
+        foreach (var p in GameManager.instance.workPersons)
         {
             p.mood -= 10;
         }
@@ -567,7 +583,7 @@ public class TextScreen : MonoBehaviour
         bool flag = false;//如果roll到的结果并非是当前状态可触发的，重roll
         while (!flag)
         {
-            int result = UnityEngine.Random.Range(0, 5);
+            int result = RandomTool.GenerateRandomInt(0, 4);
             switch (result)
             {
                 case 0:
@@ -578,13 +594,13 @@ public class TextScreen : MonoBehaviour
                     flag = true;
                     break;
                 case 1:
-                    GameManager.instance.tempPerson.Exist = false;//out
+                    GameManager.instance.tempPerson.runAway = true;
                     Finish();
                     screenText.text = "你的右手骨折了，这对于任何一个人来说都是毁灭性的。你不得不退出开发组了。（后续无法进行开发）";
                     flag = true;
                     break;
                 case 2:
-                    if (GameManager.instance.tempPerson.personName == "嗣yn"|| GameManager.instance.tempPerson.personName == "大保")
+                    if (GameManager.instance.tempPerson.personName == "嗣yn" || GameManager.instance.tempPerson.personName == "大保")
                     {
                         GameManager.instance.tempPerson.Exist = false;
                         GameManager.instance.tempPerson.health -= 20;
@@ -597,7 +613,7 @@ public class TextScreen : MonoBehaviour
                 case 3:
                     if (GameManager.instance.tempPerson.personName == "VINK" || GameManager.instance.tempPerson.personName == "公泥")
                     {
-                        GameManager.instance.tempPerson.Exist = false;//out
+                        GameManager.instance.tempPerson.runAway = true;
                         Finish();
                         screenText.text = "你的左手骨折了，然而只靠一只右手很难继续敲代码了，你不得不退出开发组了。（后续无法进行开发）";
                         flag = true;
@@ -606,7 +622,7 @@ public class TextScreen : MonoBehaviour
                     else break;
                 case 4:
                     GameManager.instance.tempPerson.Exist = false;
-                    //img
+                    GameManager.instance.create += 15;
                     GameManager.instance.tempPerson.health -= 10;
                     Finish();
                     screenText.text = "虽然听着很扯，但是事实就是如此，你到医院进行了一些治疗后就没什么大碍了，而且这一下撞击使你灵感迸发！现在你感到许多问题都得到了解决！（当前阶段无法进行开发，健康-10，团队创造力+15）";
@@ -637,7 +653,7 @@ public class TextScreen : MonoBehaviour
     }
     void E14B1()
     {
-        //money-100
+        GameManager.instance.money -= 100;
         Finish();
         screenText.text = "请人来维修是最快的选择，虽然要花点钱就是了。（团队资金-100）";
     }
@@ -647,7 +663,18 @@ public class TextScreen : MonoBehaviour
         Finish();
         screenText.text = "虽然自己拆比较费劲，但是还好这个情况对你来说并不难处理，你很快就解决了。（精力-10）";
     }
-    /*E15的实现待定*/
+    void E15B0()
+    {
+        GameManager.instance.tempPerson.spirit -= 25;
+        Finish();
+        screenText.text = "虽然累是累了点，但是对做出成品有帮助就行，无所谓了。（" + GameManager.instance.tempPerson.personName + "精力-25）";
+    }
+    void E15B1()
+    {
+        GameManager.instance.tempPerson.mood -= 15;
+        Finish();
+        screenText.text = "你拒绝了" + p.personName + "的建议，但是他还是坚持认为他的想法很不错，所以他很不开心。（" + p.personName + "心情-15）";
+    }
     void E16B0()
     {
         GameManager.instance.tempPerson.Exist = false;
@@ -655,7 +682,38 @@ public class TextScreen : MonoBehaviour
         Finish();
         screenText.text = "你摆了半天，爽玩了最新最热的《乌蒙dx2088》，现在你感觉心情好了一些。（当前阶段无法进行开发，心情+15）";
     }
-    /*E17的实现待定*/
+    void E17B0()
+    {
+        GameManager.instance.tempPerson.Exist = false;
+        int bad = 30;
+        if (GameManager.instance.tempPerson.mood <= 30) bad = 60;
+        int result = RandomTool.GenerateRandomInt(1, 100);
+        if (result <= bad)
+        {
+            GameManager.instance.SetDelayedText(6, "万万没想到，" + GameManager.instance.tempPerson.personName + "跟着爹咪跳槽了，工作室压力骤增!");
+            GameManager.instance.tempPerson.SetDelay(1, Attribute.Null, 0, false);
+            GameManager.instance.tempPerson.SetDelay(2, Attribute.Null, 0, false);
+            GameManager.instance.tempPerson.SetDelay(3, Attribute.Null, 0, false);
+            GameManager.instance.tempPerson.SetDelay(4, Attribute.Null, 0, false);
+            GameManager.instance.tempPerson.SetDelay(5, Attribute.Null, 0, false);
+            GameManager.instance.tempPerson.SetDelay(6, Attribute.RunAway, 0, false);
+        }
+        else
+        {
+            GameManager.instance.SetDelayedText(4, "在学习中，你逐渐意识到这是爹咪想带人跳槽的阴谋，但是你坚定信念，回来与大伙共进退，大家都对你表示赞许。");
+            GameManager.instance.tempPerson.SetDelay(1, Attribute.Null, 0, false);
+            GameManager.instance.tempPerson.SetDelay(2, Attribute.Null, 0, false);
+            GameManager.instance.tempPerson.SetDelay(3, Attribute.Null, 0, false);
+        }
+        Finish();
+        screenText.text = "这是个提升画技的大好机会，怎么能错过呢？（暂时离开一段时间）";
+    }
+    void E17B1()
+    {
+        GameManager.instance.tempPerson.mood -= 10;
+        Finish();
+        screenText.text = "放弃小我成就大我，还是大家共同的目标重要。（心情-10）";
+    }
     void E18B0()
     {
         if (GameManager.instance.money < 99)
@@ -751,7 +809,7 @@ public class TextScreen : MonoBehaviour
             GameManager.instance.tempPerson.health -= 30;
             GameManager.instance.tempPerson.mood += 20;
             Finish();
-            screenText.text = "你二话不说就抄起椅子冲了上去，然后经过一番缠斗之后，你看准时机抱起小女孩跑了出来。虽然你因此受了一些伤，但是小女孩对你的英勇行为表示感谢。经过一番交谈，你发现她原来只是体型比较小，却是一个有名的游戏工作室成员，她给了你很多建议，你感觉很高兴。（健康-30，团队创造力+30，心情+20）";
+            screenText.text = "你二话不说就抄起椅子冲了上去，经过一番缠斗之后，你看准时机抱起小女孩跑了出来。虽然你因此受了一些伤，但是小女孩对你的英勇行为表示感谢。经过一番交谈，你发现她原来只是体型比较小，却是一个有名的游戏工作室成员，她给了你很多建议，你感觉很高兴。（健康-30，团队创造力+30，心情+20）";
         }
         else
         {

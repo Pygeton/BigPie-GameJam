@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public enum Attribute { Health,Spirit,Mood,Money,Create,LoadingInt,Null}
+public enum Attribute { Health,Spirit,Mood,Money,Create,RunAway,LoadingInt,Null}
 public class Person : MonoBehaviour
 {
     public string personName;
@@ -97,7 +97,10 @@ public class Person : MonoBehaviour
         {
             GameManager.instance.loadingInt += dadjust;
         }
-
+        else if(dattr == Attribute.RunAway)
+        {
+            runAway = true;
+        }
     }
 
     private void RollEvent()
@@ -169,7 +172,8 @@ public class Person : MonoBehaviour
                             a = 16;
                         break;
                     case 17://学美术
-                        /*目前实现方法未知，参见文档*/
+                        if (personName == "嗣yn" || personName == "大保")
+                            a = 17;
                         break;
                     case 18:
                         a = 18;
