@@ -209,7 +209,36 @@ public class TextScreen : MonoBehaviour
                 buttons[0].GetComponent<Button>().onClick.AddListener(E18B0);
                 buttons[1].GetComponent<Button>().onClick.AddListener(E18B1);
                 break;
-
+            case 19://潘多拉魔盒
+                screenText.text = GameManager.instance.tempPerson.personName + "走在路边，看到一位商人席地而坐，面前是一个颇具神秘感的漆黑盒子。他上前询问，商人说这个盒子是潘多拉魔盒，里面会有你意想不到的东西，但是价格...非常吓人，也难怪没人买。";
+                buttons[0].SetText("我倒要看看这葫芦里卖的什么药");
+                buttons[1].SetText("我为什么要当这个大冤种");
+                buttons[0].GetComponent<Button>().onClick.AddListener(E19B0);
+                buttons[1].GetComponent<Button>().onClick.AddListener(E19B1);
+                break;
+            case 20://行侠仗义
+                screenText.text = GameManager.instance.tempPerson.personName + "走在路边，发现有一个小女孩正被几个长相凶恶的彪形大汉骚扰。他注意到那个小女孩向他投来了求助的目光。但是他们人数众多...";
+                buttons[0].SetText("路见不平，拔刀相助");
+                buttons[1].SetText("还是报警吧");
+                buttons[2].SetText("多一事不如少一事");
+                buttons[0].GetComponent<Button>().onClick.AddListener(E20B0);
+                buttons[1].GetComponent<Button>().onClick.AddListener(E20B1);
+                buttons[2].GetComponent<Button>().onClick.AddListener(E20B2);
+                break;
+            case 21://遗弃之物
+                screenText.text = GameManager.instance.tempPerson.personName + "走在路边，看到旁边有一个大纸箱，里面是一只看上去非常虚弱的白色小猫。纸箱上写着一行小字：“求好心人收养”。他要怎么办呢...";
+                buttons[0].SetText("抱回家里养着吧");
+                buttons[1].SetText("送去流浪动物收容站吧");
+                buttons[2].SetText("置之不理");
+                buttons[0].GetComponent<Button>().onClick.AddListener(E21B0);
+                buttons[1].GetComponent<Button>().onClick.AddListener(E21B1);
+                buttons[2].GetComponent<Button>().onClick.AddListener(E21B2);
+                break;
+            case 22://破罐破摔
+                screenText.text = GameManager.instance.tempPerson.personName + "的心情到达了前所未有的低谷，他开始认为他所做的一切都是毫无意义的，也已经没有任何动力和耐心去继续开发了，他宣布离开开发组。";
+                buttons[0].SetText("啊这...");
+                buttons[0].GetComponent<Button>().onClick.AddListener(E22B0);
+                break;
             case 100://无事发生
                 {
                     screenText.text = "什么事都没有发生，开发进度稳定！";
@@ -620,25 +649,34 @@ public class TextScreen : MonoBehaviour
     /*E17的实现待定*/
     void E18B0()
     {
-        GameManager.instance.tempPerson.Exist = false;
-        int result = RandomTool.GenerateRandomInt(1, 100);
-        if(result >= 70)
+        if (GameManager.instance.money < 99)
         {
-            //img+20
             Finish();
-            screenText.text = "大师果然名不虚传，他甚至没有询问就揭露了你的问题所在，而且经过一番指点，你的灵感如泉水一般涌现！（团队创造力+20）";
-        }
-        else if(result >= 40)
-        {
-            GameManager.instance.tempPerson.mood += 20;
-            Finish();
-            screenText.text = "尽管大师并没有完全解决你的问题，但是他的话术确实有一手，也确实揭露了你的一些困惑，你至少心情好了不少。（心情+20）";
+            screenText.text = "虽然你想要咨询一下大师的意见，但是你发现你似乎钱不够，还是算了。";
         }
         else
         {
-            GameManager.instance.tempPerson.mood -= 20;
-            Finish();
-            screenText.text = "这个所谓的大师就是个彻头彻尾的骗子，到头来他就是只会说一些空泛的话罢了，一点忙都帮不上。你觉得自己血亏，心情更加烦躁。（心情-20）";
+            GameManager.instance.money -= 99;
+            GameManager.instance.tempPerson.Exist = false;
+            int result = RandomTool.GenerateRandomInt(1, 100);
+            if (result > 70)
+            {
+                GameManager.instance.create += 20;
+                Finish();
+                screenText.text = "大师果然名不虚传，他甚至没有询问就揭露了你的问题所在，而且经过一番指点，你的灵感如泉水一般涌现！（团队创造力+20）";
+            }
+            else if (result > 40)
+            {
+                GameManager.instance.tempPerson.mood += 20;
+                Finish();
+                screenText.text = "尽管大师并没有完全解决你的问题，但是他的话术确实有一手，也确实揭露了你的一些困惑，你至少心情好了不少。（心情+20）";
+            }
+            else
+            {
+                GameManager.instance.tempPerson.mood -= 20;
+                Finish();
+                screenText.text = "这个所谓的大师就是个彻头彻尾的骗子，到头来他就是只会说一些空泛的话罢了，一点忙都帮不上。你觉得自己血亏，心情更加烦躁。（心情-20）";
+            }
         }
     }
     void E18B1()
@@ -646,7 +684,139 @@ public class TextScreen : MonoBehaviour
         Finish();
         screenText.text = "这种一眼丁假的东西谁信谁倒霉，有那时间不如想想怎么解决问题。";
     }
-
+    void E19B0()
+    {
+        if (GameManager.instance.money < 1000)
+        {
+            Finish();
+            screenText.text = "虽然你很想买下这个盒子，但是你摸了摸口袋，好像钱不够，还是算了。";
+        }
+        else
+        {
+            GameManager.instance.money -= 1000;
+            int result = RandomTool.GenerateRandomInt(1, 100);
+            if (result > 90)
+            {
+                GameManager.instance.tempPerson.health += 100;
+                GameManager.instance.tempPerson.spirit += 100;
+                Finish();
+                screenText.text = "你打开盒子，发现里面有一瓶药被一套冷冻装置精心的保护着。你打开下面的说明书，发现这是一个生物实验室开发的最新产品，可以大幅提升细胞的修复速率。你喝下去后，感觉精神焕发，浑身充满力量！（资金-1000，健康+100，精力+100）";
+            }
+            else if (result > 80)
+            {
+                GameManager.instance.create += 100;
+                Finish();
+                screenText.text = "你打开盒子，发现里面装着一个u盘，旁边附有名为《智能AI系统》的说明书，你了解到这是一个软件实验室的最新产品，你把他插入了电脑，发现这个AI竟然真的具备协助你开发的功能！太酷了！（资金-1000，团队创造力+100）";
+            }
+            else if (result > 70)
+            {
+                GameManager.instance.money += 3000;
+                Finish();
+                screenText.text = "你打开盒子，发现里面有一张银行的3000元支票。竟然还有钱生钱这种好事？你把支票拿到银行进行了兑换，大发了一笔横财！（资金-1000，团队资金+3000）";
+            }
+            else if (result > 60)
+            {
+                GameManager.instance.tempPerson.mood += 100;
+                //peace
+                Finish();
+                screenText.text = "你打开盒子，发现里面有一个护身符，你起初还很疑惑是不是被骗了，但是你发现自从你戴上他之后心情意外的好，而且生活平稳，风平浪静！（资金-1000，心情+100）";
+            }
+            else
+            {
+                GameManager.instance.tempPerson.mood -= 30;
+                Finish();
+                screenText.text = "你打开盒子，发现里面空空如也。你非常生气，觉得自己就是个大冤种。正当你攥着拳头想找那个商人“理论”一下时，你发现他已经溜之大吉了。（资金-1000，心情-30）";
+            }
+        }
+    }
+    void E19B1()
+    {
+        Finish();
+        screenText.text = "就一个破盒子还卖1000块？会买这个的要么就是闲的没事干的土豪要不就是脑子有问题。";
+    }
+    void E20B0()
+    {
+        if (GameManager.instance.tempPerson.personName == "大保")
+        {
+            GameManager.instance.create += 30;
+            GameManager.instance.tempPerson.health -= 30;
+            GameManager.instance.tempPerson.mood += 20;
+            Finish();
+            screenText.text = "你二话不说就抄起椅子冲了上去，然后经过一番缠斗之后，你看准时机抱起小女孩跑了出来。虽然你因此受了一些伤，但是小女孩对你的英勇行为表示感谢。经过一番交谈，你发现她原来只是体型比较小，却是一个有名的游戏工作室成员，她给了你很多建议，你感觉很高兴。（健康-30，团队创造力+30，心情+20）";
+        }
+        else
+        {
+            GameManager.instance.tempPerson.Exist = false;
+            GameManager.instance.tempPerson.SetDelay(1, Attribute.Null, 0, false);
+            GameManager.instance.tempPerson.health -= 50;
+            Finish();
+            screenText.text = "双拳难敌十手，只凭你一介普通人还想英雄救美？你不但没有能阻止他们作恶，还被揍进了医院。（当前阶段和下一阶段无法进行开发，健康-50）";
+        }
+    }
+    void E20B1()
+    {
+        int result = RandomTool.GenerateRandomInt(1, 100);
+        if (result > 50)
+        {
+            GameManager.instance.tempPerson.mood += 20;
+            Finish();
+            screenText.text = "你见状给小女孩使了个眼色，然后立刻拨打了报警电话，警察很快赶到将恶人绳之以法了。你悄然离去，深藏功与名，感觉很开心。（心情+20）";
+        }
+        else
+        {
+            GameManager.instance.tempPerson.mood -= 30;
+            Finish();
+            screenText.text = "你虽然报了警，但是为时已晚。没等警察赶到，小女孩就被他们拖进了巷子，而你只能眼睁睁看着这一切发生，你为自己的无能感到自责与愤怒。（心情-30）";
+        }
+    }
+    void E20B2()
+    {
+        GameManager.instance.tempPerson.mood -= 10;
+        Finish();
+        screenText.text = "虽然你很无奈，但是个人的力量终究还是有限，还是就当没看见吧。（心情-10）";
+    }
+    void E21B0()
+    {
+        int result = RandomTool.GenerateRandomInt(1, 100);
+        if (result > 60)
+        {
+            GameManager.instance.tempPerson.SetDelay(6, Attribute.Mood, 30, true);
+            GameManager.instance.SetDelayedText(6, "小猫开始逐渐适应了和你一起生活，每天你只要起床看到它，就会感觉心情非常愉快。（心情+30）");
+            Finish();
+        }
+        else if (result > 20)
+        {
+            GameManager.instance.tempPerson.SetDelay(6, Attribute.Health, -15, false);
+            GameManager.instance.SetDelayedText(6, "看上去小猫并不是那么友善，你试图去逗它的时候被它一爪子抓伤了，现在你得去医院打疫苗了。（当前阶段无法进行开发，健康-15）");
+            Finish();
+        }
+        else
+        {
+            GameManager.instance.tempPerson.SetDelay(6, Attribute.Create, 30, true);
+            GameManager.instance.SetDelayedText(6, "你昨晚梦到你带回家的那只小猫化为了一只猫灵，并对你的善意表示了感谢，然后就离去了。你一觉醒来发现小猫真的不见了，但是不知为何，你的脑子里多了很多灵感，你的思路变得无比清晰，你感觉很神奇。（团队创想力+30）");
+            Finish();
+        }
+        screenText.text = "你将小猫抱回了家并精心照料起来。";
+    }
+    void E21B1()
+    {
+        GameManager.instance.tempPerson.Exist = false;
+        GameManager.instance.tempPerson.mood += 15;
+        Finish();
+        screenText.text = "你花了不少时间抱着这只小猫寻找流浪动物收容站。最终收容站的工作人员将小猫接过并对你表示了赞许，你感觉一切都是有意义的。（当前阶段无法行动，心情+15）";
+    }
+    void E21B2()
+    {
+        GameManager.instance.tempPerson.mood -= 10;
+        Finish();
+        screenText.text = "尽管你的怜悯之心隐隐作痛，但是你还是离开了。（心情-10）";
+    }
+    void E22B0()
+    {
+        GameManager.instance.tempPerson.runAway = true;
+        Finish();
+        screenText.text = "虽然很遗憾，但是毕竟大家也是兴趣使然，不能干扰个人的决定，希望能够顺利将作品完成吧。";
+    }
     void A6B0()
     {
         GameManager.instance.player.finish=true;

@@ -104,7 +104,7 @@ public class Person : MonoBehaviour
                 a = 10;
             while (a == 9999)
             {
-                Event = Koubot.Tool.Random.RandomTool.GenerateRandomInt(1, 18);
+                Event = Koubot.Tool.Random.RandomTool.GenerateRandomInt(1, 22);
                 
                 switch (Event)
                 {
@@ -165,6 +165,18 @@ public class Person : MonoBehaviour
                         break;
                     case 18:
                         a = 18;
+                        break;
+                    case 19:
+                        a = 19;
+                        break;
+                    case 20:
+                        a = 20;
+                        break;
+                    case 21:
+                        a = 21;
+                        break;
+                    case 22:
+                        a = 22;
                         break;
                     default: break;
                 }
