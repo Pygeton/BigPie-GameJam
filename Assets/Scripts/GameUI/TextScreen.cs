@@ -223,15 +223,90 @@ public class TextScreen : MonoBehaviour
                     GameManager.instance.player.finish = true;
                     break;
                 }
-            case 1001://活动:测试
+            case 1001://活动:线上会议
                 {
-                    screenText.text = "vink约会";
-                    GameManager.instance.p1VINK.SetDelay(1, Attribute.Null, 0, false);
-                    GameManager.instance.p1VINK.SetDelay(2, Attribute.Null, 0, false);
-                    GameManager.instance.SetDelayedText(1, "VINK抛弃兄弟们，重色轻友（恼");
-                    GameManager.instance.SetDelayedText(2, "VINK抛弃兄弟们，重色轻友（恼");
-                    GameManager.instance.SetDelayedText(3, "VINK,你还有脸回来？");
+                    screenText.text = "线上会议中，大家互相交流了自己在开发过程中遇到的问题并提出了自己的看法，确定了接下来的开发方向和思路，也许会对接下来的开发有帮助。";
+                    foreach(var p in GameManager.instance.workPersons)
+                    {
+                        p.spirit -= 5;
+                        GameManager.instance.create += 50;
+                    }
                     GameManager.instance.player.finish = true;
+                    break;
+                }
+            case 1002://活动:健身活动
+                {
+                    screenText.text = "在场的大家决定一起去户外做会运动，增强体质以应对接下来的挑战。";
+                    foreach (var p in GameManager.instance.workPersons)
+                    {
+                        if(p.Exist==true)
+                        {
+                            p.health += 25;
+                            p.spirit -= 20;
+                        }                     
+                    }
+                    GameManager.instance.player.finish = true;
+                    break;
+                }
+            case 1003://活动:大保健
+                {
+                    screenText.text = "大家决定一起花钱去SPA做特惠大保健，放松身心。";
+                    foreach (var p in GameManager.instance.workPersons)
+                    {
+                        if (p.Exist == true)
+                        {
+                            p.health += 10;
+                            p.spirit += 20;
+                            GameManager.instance.money -= 20;
+                        }
+                      
+                       
+                    }
+                    GameManager.instance.player.finish = true;
+                    break;
+                }
+            case 1004://活动:看电影
+                {
+                    screenText.text = "有好兄弟带了免费电影票！大家决定一起去电影院看会电影，吃点东西。";
+                    foreach (var p in GameManager.instance.workPersons)
+                    {
+                        if (p.Exist == true)
+                        {
+                            p.health += 10;
+                            p.spirit += 20;                          
+                        }
+                    }
+                    GameManager.instance.player.finish = true;
+                    break;
+                }
+            case 1005://活动:集体兼职
+                {
+                    
+                    screenText.text = "由于团队资金短缺，经过商讨，在场的大家决定去做2天兼职挣点外快。";
+                    foreach (var p in GameManager.instance.workPersons)
+                    {
+                        if (p.Exist == true)
+                        {
+                            p.spirit -= 30;
+                            for(int i= 0;i<4;i++)
+                            {
+                                p.SetDelay(i,Attribute.Null,0,false);
+                            }
+                            p.SetDelay(5,Attribute.Money,150,true);
+
+                        }
+                    }
+                    GameManager.instance.SetDelayedText(5, "芜湖！为团队带来了一笔巨款！");
+                    GameManager.instance.player.finish = true;
+                    break;
+                }
+            case 1006://活动:创意就是财富
+                {
+                    screenText.text = "有人看好我们的创意，是否换取点钱财？";
+                    buttons[0].SetText("换！");
+                    buttons[1].SetText("不换");
+                    buttons[0].GetComponent<Button>().onClick.AddListener(A6B0);
+                    buttons[1].GetComponent<Button>().onClick.AddListener(A6B1);
                     break;
                 }
             default:
@@ -570,5 +645,33 @@ public class TextScreen : MonoBehaviour
     {
         Finish();
         screenText.text = "这种一眼丁假的东西谁信谁倒霉，有那时间不如想想怎么解决问题。";
+    }
+
+    void A6B0()
+    {
+        GameManager.instance.player.finish=true;
+        Finish();
+        screenText.text = "双方满意，双向奔赴(?)";
+        GameManager.instance.create -= 100;
+        GameManager.instance.money += 200;
+    }
+    void A6B1()
+    {
+        GameManager.instance.player.finish = true;
+        Finish();
+        screenText.text = "团队智慧的结晶怎么能随便换！大家不仅拒绝，还更加专注研究创意！";
+        int a = 0;
+        foreach(var p in GameManager.instance.workPersons)
+        {
+            if(p.Exist==true)
+            {
+                a++;
+                p.spirit += 10;
+            }
+            if(a==4)
+            {
+                GameManager.instance.create += 50;
+            }
+        }
     }
 }
