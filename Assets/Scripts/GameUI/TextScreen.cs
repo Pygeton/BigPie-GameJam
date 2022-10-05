@@ -54,190 +54,197 @@ public class TextScreen : MonoBehaviour
         HideAllBtns();
         bool rollFlag = false;//随机标志符，true为roll到的事件符合条件，否则不符合重roll
         bool eventFlag = false;//事件标志符，true则将有事件发生，false则无事发生
-        if (UnityEngine.Random.Range(0, 100) < 50)
+        if (!currentPerson.Exist)
         {
-            eventFlag = true;
+            GameManager.instance.eventCode = 0;//人不在直接跳过
         }
         else
         {
-            GameManager.instance.eventCode = 100;
-        }
-        if (GameManager.instance.eventCode == 99)//提示
-        {
-            screenText.text = "结算完所有人员的事件后会开启活动按钮，点下一阶段推进日程。";
-            rollFlag = true;
-        }
-        else if(GameManager.instance.eventCode == 100)//无事发生
-        {
-            screenText.text = "什么事都没有发生，开发进度稳定！";
-            buttons[0].SetText("好耶！");
-            buttons[0].GetComponent<Button>().onClick.AddListener(E100B0);
-            rollFlag = true;
-        }
-        while (!rollFlag)
-        {
-            if (eventFlag)
+            if (UnityEngine.Random.Range(0, 100) < 50)
             {
-                GameManager.instance.eventCode = UnityEngine.Random.Range(1, 17);
+                eventFlag = true;
             }
-            switch (GameManager.instance.eventCode)
+            else
             {
-                case 1://翻江倒海
-                    if (currentPerson.health <= 50)
-                    {
-                        screenText.text = currentPerson.personName + "在开发途中突然感到肚子里翻江倒海，强烈的阵痛接连袭来，想必是吃坏肚子得了急性肠胃炎...";
-                        buttons[0].SetText("吃点药顶一顶吧（健康+5，精力-30）");
-                        buttons[1].SetText("还是去看个医生吧（今天无法再进行开发,健康+30，精力+15）");
-                        buttons[0].GetComponent<Button>().onClick.AddListener(E1B0);
-                        buttons[1].GetComponent<Button>().onClick.AddListener(E1B1);
+                GameManager.instance.eventCode = 100;
+            }
+            if (GameManager.instance.eventCode == 99)//提示
+            {
+                screenText.text = "结算完所有人员的事件后会开启活动按钮，点下一阶段推进日程。";
+                rollFlag = true;
+            }
+            else if (GameManager.instance.eventCode == 100)//无事发生
+            {
+                screenText.text = "什么事都没有发生，开发进度稳定！";
+                buttons[0].SetText("好耶！");
+                buttons[0].GetComponent<Button>().onClick.AddListener(E100B0);
+                rollFlag = true;
+            }
+            while (!rollFlag)
+            {
+                if (eventFlag)
+                {
+                    GameManager.instance.eventCode = UnityEngine.Random.Range(1, 17);
+                }
+                switch (GameManager.instance.eventCode)
+                {
+                    case 1://翻江倒海
+                        if (currentPerson.health <= 50)
+                        {
+                            screenText.text = currentPerson.personName + "在开发途中突然感到肚子里翻江倒海，强烈的阵痛接连袭来，想必是吃坏肚子得了急性肠胃炎...";
+                            buttons[0].SetText("吃点药顶一顶吧（健康+5，精力-30）");
+                            buttons[1].SetText("还是去看个医生吧（今天无法再进行开发,健康+30，精力+15）");
+                            buttons[0].GetComponent<Button>().onClick.AddListener(E1B0);
+                            buttons[1].GetComponent<Button>().onClick.AddListener(E1B1);
+                            rollFlag = true;
+                            break;
+                        }
+                        else break;
+                    case 2://虚弱
+                        if (currentPerson.spirit <= 30)
+                        {
+                            screenText.text = currentPerson.personName + "感觉有些疲惫，注意力有些不集中...";
+                            buttons[0].SetText("问题不大，继续干吧（精力-10）");
+                            buttons[1].SetText("喝瓶咖啡顶一顶就完事（健康-10，精力+25）");
+                            buttons[2].SetText("还是休息一下好了（当前阶段无法再进行开发，精力+25）");
+                            buttons[0].GetComponent<Button>().onClick.AddListener(E2B0);
+                            buttons[1].GetComponent<Button>().onClick.AddListener(E2B1);
+                            buttons[2].GetComponent<Button>().onClick.AddListener(E2B2);
+                            rollFlag = true;
+                            break;
+                        }
+                        else break;
+                    case 3://萎靡不振
+                        if (currentPerson.spirit <= 10)
+                        {
+                            screenText.text = currentPerson.personName + "感觉非常疲惫，完全无法集中注意力，可能眼睛一闭就要睡着了...";
+                            buttons[0].SetText("喝多几瓶咖啡，能撑就撑（健康-25，精力+20）");
+                            buttons[1].SetText("也许该休息了（当前阶段无法再进行开发，精力+20）");
+                            buttons[0].GetComponent<Button>().onClick.AddListener(E3B0);
+                            buttons[1].GetComponent<Button>().onClick.AddListener(E3B1);
+                            rollFlag = true;
+                            break;
+                        }
+                        else break;
+                    case 4://不速之客
+                        screenText.text = currentPerson.personName + "的手机响起，接通电话，原来是父母想要来自己所在的城市看望自己，但是开发任务很紧...";
+                        buttons[0].SetText("抽点时间陪伴一下父母吧（第二天无法进行开发，心情+50）");
+                        buttons[1].SetText("时间很紧，还是下次吧（心情-20）");
+                        buttons[0].GetComponent<Button>().onClick.AddListener(E4B0);
+                        buttons[1].GetComponent<Button>().onClick.AddListener(E4B1);
                         rollFlag = true;
                         break;
-                    }
-                    else break;
-                case 2://虚弱
-                    if (currentPerson.spirit <= 30)
-                    {
-                        screenText.text = currentPerson.personName + "感觉有些疲惫，注意力有些不集中...";
-                        buttons[0].SetText("问题不大，继续干吧（精力-10）");
-                        buttons[1].SetText("喝瓶咖啡顶一顶就完事（健康-10，精力+25）");
-                        buttons[2].SetText("还是休息一下好了（当前阶段无法再进行开发，精力+25）");
-                        buttons[0].GetComponent<Button>().onClick.AddListener(E2B0);
-                        buttons[1].GetComponent<Button>().onClick.AddListener(E2B1);
-                        buttons[2].GetComponent<Button>().onClick.AddListener(E2B2);
+                    case 5://紧急进修
+                        screenText.text = currentPerson.personName + "认为自己的技术力捉急，陷入了开发的困难，也许他需要先停下来学习一下...";
+                        buttons[0].SetText("抽点时间学习一下相关知识");
+                        buttons[1].SetText("和开发组成员进行交流");
+                        buttons[2].SetText("还是自己再思考一会好了");
+                        buttons[0].GetComponent<Button>().onClick.AddListener(E5B0);
+                        buttons[1].GetComponent<Button>().onClick.AddListener(E5B1);
+                        buttons[2].GetComponent<Button>().onClick.AddListener(E5B2);
                         rollFlag = true;
                         break;
-                    }
-                    else break;
-                case 3://萎靡不振
-                    if (currentPerson.spirit <= 10)
-                    {
-                        screenText.text = currentPerson.personName + "感觉非常疲惫，完全无法集中注意力，可能眼睛一闭就要睡着了...";
-                        buttons[0].SetText("喝多几瓶咖啡，能撑就撑（健康-25，精力+20）");
-                        buttons[1].SetText("也许该休息了（当前阶段无法再进行开发，精力+20）");
-                        buttons[0].GetComponent<Button>().onClick.AddListener(E3B0);
-                        buttons[1].GetComponent<Button>().onClick.AddListener(E3B1);
+                    case 6://噩耗
+                        screenText.text = currentPerson.personName + "在刷朋友圈的时间得知一则消息，他的朋友因身体原因于昨晚去世了...";
+                        buttons[0].SetText("引以为戒，永远铭记（健康+5，心情-35）");
+                        buttons[1].SetText("约昔日共同的朋友去喝一杯吧（当前阶段无法进行开发，健康-15）");
+                        buttons[0].GetComponent<Button>().onClick.AddListener(E6B0);
+                        buttons[1].GetComponent<Button>().onClick.AddListener(E6B1);
                         rollFlag = true;
                         break;
-                    }
-                    else break;
-                case 4://不速之客
-                    screenText.text = currentPerson.personName + "的手机响起，接通电话，原来是父母想要来自己所在的城市看望自己，但是开发任务很紧...";
-                    buttons[0].SetText("抽点时间陪伴一下父母吧（第二天无法进行开发，心情+50）");
-                    buttons[1].SetText("时间很紧，还是下次吧（心情-20）");
-                    buttons[0].GetComponent<Button>().onClick.AddListener(E4B0);
-                    buttons[1].GetComponent<Button>().onClick.AddListener(E4B1);
-                    rollFlag = true;
-                    break;
-                case 5://紧急进修
-                    screenText.text = currentPerson.personName + "认为自己的技术力捉急，陷入了开发的困难，也许他需要先停下来学习一下...";
-                    buttons[0].SetText("抽点时间学习一下相关知识");
-                    buttons[1].SetText("和开发组成员进行交流");
-                    buttons[2].SetText("还是自己再思考一会好了");
-                    buttons[0].GetComponent<Button>().onClick.AddListener(E5B0);
-                    buttons[1].GetComponent<Button>().onClick.AddListener(E5B1);
-                    buttons[2].GetComponent<Button>().onClick.AddListener(E5B2);
-                    rollFlag = true;
-                    break;
-                case 6://噩耗
-                    screenText.text = currentPerson.personName + "在刷朋友圈的时间得知一则消息，他的朋友因身体原因于昨晚去世了...";
-                    buttons[0].SetText("引以为戒，永远铭记（健康+5，心情-35）");
-                    buttons[1].SetText("约昔日共同的朋友去喝一杯吧（当前阶段无法进行开发，健康-15）");
-                    buttons[0].GetComponent<Button>().onClick.AddListener(E6B0);
-                    buttons[1].GetComponent<Button>().onClick.AddListener(E6B1);
-                    rollFlag = true;
-                    break;
-                case 7://We gonna party！
-                    screenText.text = currentPerson.personName + "收到了他朋友的一通电话，原来是他被邀请去参加一个派对，听着很有意思！";
-                    buttons[0].SetText("蹦起来！");
-                    buttons[1].SetText("还是别浪费时间了（心情-5）");
-                    buttons[0].GetComponent<Button>().onClick.AddListener(E7B0);
-                    buttons[1].GetComponent<Button>().onClick.AddListener(E7B1);
-                    rollFlag = true;
-                    break;
-                case 8://两眼一黑
-                    if (currentPerson.mood <= 0)
-                    {
-                        screenText.text = currentPerson.personName + "的精神终究还是不堪重负，只见他两眼一黑，向后一倒，晕了过去...";
-                        buttons[0].SetText("这下坏了（当前和下一阶段都不能再进行开发，健康-20）");
-                        buttons[0].GetComponent<Button>().onClick.AddListener(E8B0);
+                    case 7://We gonna party！
+                        screenText.text = currentPerson.personName + "收到了他朋友的一通电话，原来是他被邀请去参加一个派对，听着很有意思！";
+                        buttons[0].SetText("蹦起来！");
+                        buttons[1].SetText("还是别浪费时间了（心情-5）");
+                        buttons[0].GetComponent<Button>().onClick.AddListener(E7B0);
+                        buttons[1].GetComponent<Button>().onClick.AddListener(E7B1);
                         rollFlag = true;
                         break;
-                    }
-                    else break;
-                case 9://无能狂怒
-                    if (currentPerson.personName == "大保" && currentPerson.mood <= 30)
-                    {
-                        screenText.text = "大保的开发遇到瓶颈，他非常恼火，越想越生气，然后一拳砸向了电脑！";
-                        buttons[0].SetText("这一拳可砸错地方了（当前阶段不能再进行开发，团队资金-500，心情-10）");
-                        buttons[0].GetComponent<Button>().onClick.AddListener(E9B0);
+                    case 8://两眼一黑
+                        if (currentPerson.mood <= 0)
+                        {
+                            screenText.text = currentPerson.personName + "的精神终究还是不堪重负，只见他两眼一黑，向后一倒，晕了过去...";
+                            buttons[0].SetText("这下坏了（当前和下一阶段都不能再进行开发，健康-20）");
+                            buttons[0].GetComponent<Button>().onClick.AddListener(E8B0);
+                            rollFlag = true;
+                            break;
+                        }
+                        else break;
+                    case 9://无能狂怒
+                        if (currentPerson.personName == "大保" && currentPerson.mood <= 30)
+                        {
+                            screenText.text = "大保的开发遇到瓶颈，他非常恼火，越想越生气，然后一拳砸向了电脑！";
+                            buttons[0].SetText("这一拳可砸错地方了（当前阶段不能再进行开发，团队资金-500，心情-10）");
+                            buttons[0].GetComponent<Button>().onClick.AddListener(E9B0);
+                            rollFlag = true;
+                            break;
+                        }
+                        else break;
+                    case 10://猝死
+                        if (currentPerson.health <= 0)
+                        {
+                            screenText.text = currentPerson.personName + "突然感到自己的胸口非常难受，下一秒，他倒在了地上，再也没有起来...";
+                            buttons[0].SetText("太突然了（" + currentPerson.personName + "死亡，后续不能再进行开发，其他成员心情-10）");
+                            buttons[0].GetComponent<Button>().onClick.AddListener(E10B0);
+                            rollFlag = true;
+                            break;
+                        }
+                        else break;
+                    case 11://大停电
+                        screenText.text = currentPerson.personName + "工作到一半，突然屏幕一黑，你确认了一下，发现整条街都停电了，这下麻了...";
+                        buttons[0].SetText("这下啥都干不了了（当前阶段无法再进行开发，心情-10）");
+                        buttons[0].GetComponent<Button>().onClick.AddListener(E11B0);
+                        if (currentPerson.personName == "公泥")
+                        {
+                            buttons[1].SetText("打开笔记本电脑（心情-5）");
+                            buttons[1].GetComponent<Button>().onClick.AddListener(E11B1);
+                        }
                         rollFlag = true;
                         break;
-                    }
-                    else break;
-                case 10://猝死
-                    if (currentPerson.health <= 0)
-                    {
-                        screenText.text = currentPerson.personName + "突然感到自己的胸口非常难受，下一秒，他倒在了地上，再也没有起来...";
-                        buttons[0].SetText("太突然了（" + currentPerson.personName + "死亡，后续不能再进行开发，其他成员心情-10）");
-                        buttons[0].GetComponent<Button>().onClick.AddListener(E10B0);
+                    case 12://飞来横祸
+                        screenText.text = "究竟是司机不长眼睛还是" + currentPerson.personName + "不看车这已经无从追究了，总之结果就是他被车撞了而且伤的还不轻，现在只能去医院了。";
+                        buttons[0].SetText("真是倒霉...");
+                        buttons[0].GetComponent<Button>().onClick.AddListener(E12B0);
                         rollFlag = true;
                         break;
-                    }
-                    else break;
-                case 11://大停电
-                    screenText.text = currentPerson.personName + "工作到一半，突然屏幕一黑，你确认了一下，发现整条街都停电了，这下麻了...";
-                    buttons[0].SetText("这下啥都干不了了（当前阶段无法再进行开发，心情-10）");
-                    buttons[0].GetComponent<Button>().onClick.AddListener(E11B0);
-                    if (currentPerson.personName == "公泥")
-                    {
-                        buttons[1].SetText("打开笔记本电脑（心情-5）");
-                        buttons[1].GetComponent<Button>().onClick.AddListener(E11B1);
-                    }
-                    rollFlag = true;
-                    break;
-                case 12://飞来横祸
-                    screenText.text = "究竟是司机不长眼睛还是" + currentPerson.personName + "不看车这已经无从追究了，总之结果就是他被车撞了而且伤的还不轻，现在只能去医院了。";
-                    buttons[0].SetText("真是倒霉...");
-                    buttons[0].GetComponent<Button>().onClick.AddListener(E12B0);
-                    rollFlag = true;
-                    break;
-                case 13://自我怀疑
-                    if (currentPerson.personName == "嗣yn" || currentPerson.personName == "大保")
-                    {
-                        screenText.text = "人在精益求精的道路上是无止境的，所以这也许可以解释明明自己的画被很多人夸，但是却觉得自己很菜的现象。";
-                        buttons[0].SetText("？吗的真是");
-                        buttons[0].GetComponent<Button>().onClick.AddListener(E13B0);
+                    case 13://自我怀疑
+                        if (currentPerson.personName == "嗣yn" || currentPerson.personName == "大保")
+                        {
+                            screenText.text = "人在精益求精的道路上是无止境的，所以这也许可以解释明明自己的画被很多人夸，但是却觉得自己很菜的现象。";
+                            buttons[0].SetText("？吗的真是");
+                            buttons[0].GetComponent<Button>().onClick.AddListener(E13B0);
+                            rollFlag = true;
+                            break;
+                        }
+                        else break;
+                    case 14://故障
+                        screenText.text = currentPerson.personName + "的电脑突然蓝屏了，然后无论怎么重启都没有反应，这下如何解决呢...";
+                        buttons[0].SetText("送到电脑维修店进行维修（当前阶段无法进行开发）");
+                        buttons[1].SetText("花钱请人来维修一下（团队资金-100）");
+                        buttons[0].GetComponent<Button>().onClick.AddListener(E14B0);
+                        buttons[1].GetComponent<Button>().onClick.AddListener(E14B1);
+                        if (currentPerson.name == "VINK")
+                        {
+                            buttons[2].SetText("自己拆开电脑看看（精力-10）");
+                            buttons[2].GetComponent<Button>().onClick.AddListener(E14B2);
+                        }
                         rollFlag = true;
                         break;
-                    }
-                    else break;
-                case 14://故障
-                    screenText.text = currentPerson.personName + "的电脑突然蓝屏了，然后无论怎么重启都没有反应，这下如何解决呢...";
-                    buttons[0].SetText("送到电脑维修店进行维修（当前阶段无法进行开发）");
-                    buttons[1].SetText("花钱请人来维修一下（团队资金-100）");
-                    buttons[0].GetComponent<Button>().onClick.AddListener(E14B0);
-                    buttons[1].GetComponent<Button>().onClick.AddListener(E14B1);
-                    if(currentPerson.name == "VINK")
-                    {
-                        buttons[2].SetText("自己拆开电脑看看（精力-10）");
-                        buttons[2].GetComponent<Button>().onClick.AddListener(E14B2);
-                    }
-                    rollFlag = true;
-                    break;
-                case 15://献计
-                    /*目前实现方法未知，参见文档*/
-                    break;
-                case 16://开摆
-                    if (currentPerson.mood <= 30)
-                    {
-                        screenText.text = currentPerson.personName + "的心情非常糟糕，他不想干活了，他现在只想开摆。";
-                        buttons[0].SetText("开摆！（当前阶段无法进行开发，心情+15）");
-                        buttons[0].GetComponent<Button>().onClick.AddListener(E16B0);
-                        rollFlag = true;
+                    case 15://献计
+                        /*目前实现方法未知，参见文档*/
                         break;
-                    }
-                    else break;
-                default:break;
+                    case 16://开摆
+                        if (currentPerson.mood <= 30)
+                        {
+                            screenText.text = currentPerson.personName + "的心情非常糟糕，他不想干活了，他现在只想开摆。";
+                            buttons[0].SetText("开摆！（当前阶段无法进行开发，心情+15）");
+                            buttons[0].GetComponent<Button>().onClick.AddListener(E16B0);
+                            rollFlag = true;
+                            break;
+                        }
+                        else break;
+                    default: break;
+                }
             }
         }
     }
