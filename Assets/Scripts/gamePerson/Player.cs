@@ -36,7 +36,23 @@ public class Player : MonoBehaviour
 
     private void PRollEvent()
     {
-        int a = Koubot.Tool.Random.RandomTool.GenerateRandomInt(1000, 1001);
-        PlayerEvent = a;
+            int a = 9999;
+            while (a == 9999)
+            {
+                PlayerEvent = Koubot.Tool.Random.RandomTool.GenerateRandomInt(1000,1001);
+            switch (PlayerEvent)
+               {
+                case 1000:
+                        a = 1000;
+                    break;
+                case 1001:
+                    if (GameManager.instance.p1VINK.Exist==true)
+                        a = 1001;
+                    break;
+                default:break;
+                }
+            }
+                
+            PlayerEvent = a;
     }
 }

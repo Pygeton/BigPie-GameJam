@@ -56,7 +56,10 @@ public class TextScreen : MonoBehaviour
         {
             case 99:
                 {
-                    screenText.text = "结算完所有人员的事件后会开启活动按钮，点下一阶段推进日程。";
+                    if (GameManager.instance.delayedShow[GameManager.instance.turn-1] == "")
+                        screenText.text = "结算完所有人员的事件后会开启活动按钮，点下一阶段推进日程。";
+                    else
+                        screenText.text = GameManager.instance.delayedShow[GameManager.instance.turn-1];
                     break;
                 }
             case 1:
@@ -225,6 +228,9 @@ public class TextScreen : MonoBehaviour
                     screenText.text = "vink约会";
                     GameManager.instance.p1VINK.SetDelay(1, Attribute.Null, 0, false);
                     GameManager.instance.p1VINK.SetDelay(2, Attribute.Null, 0, false);
+                    GameManager.instance.SetDelayedText(1, "VINK抛弃兄弟们，重色轻友（恼");
+                    GameManager.instance.SetDelayedText(2, "VINK抛弃兄弟们，重色轻友（恼");
+                    GameManager.instance.SetDelayedText(3, "VINK,你还有脸回来？");
                     GameManager.instance.player.finish = true;
                     break;
                 }
