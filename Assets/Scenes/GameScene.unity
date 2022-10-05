@@ -1604,8 +1604,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turn: 0
   loadingInt: 0
-  money: 9999
-  create: 9999
+  money: 0
+  create: 0
   purposeNum: 0
   p1VINK: {fileID: 301271187}
   p2Seeyn: {fileID: 1550961540}
@@ -1683,9 +1683,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   personName: VINK
   bigHead: {fileID: 21300000, guid: 2f97a7560000c2749b042121334b044a, type: 3}
-  health: 999
-  spirit: 999
-  mood: 999
+  health: 0
+  spirit: 0
+  mood: 0
   Event: 0
   Finish: 0
   Exist: 0
@@ -2700,9 +2700,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   personName: "\u516C\u6CE5"
   bigHead: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  health: 999
-  spirit: 999
-  mood: 999
+  health: 0
+  spirit: 0
+  mood: 0
   Event: 0
   Finish: 0
   Exist: 0
@@ -4240,9 +4240,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   personName: "\u5927\u4FDD"
   bigHead: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
-  health: 999
-  spirit: 999
-  mood: 999
+  health: 0
+  spirit: 0
+  mood: 0
   Event: 0
   Finish: 0
   Exist: 0
@@ -4663,9 +4663,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   personName: "\u55E3yn"
   bigHead: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
-  health: 999
-  spirit: 999
-  mood: 999
+  health: 0
+  spirit: 0
+  mood: 0
   Event: 0
   Finish: 0
   Exist: 0
@@ -4821,8 +4821,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.5481, y: 24.433596}
-  m_SizeDelta: {x: 695.95, y: 159.3259}
+  m_AnchoredPosition: {x: 2.5481, y: 19.800112}
+  m_SizeDelta: {x: 695.95, y: 150.0592}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1730969400
 MonoBehaviour:

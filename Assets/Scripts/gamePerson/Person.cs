@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public enum Attribute { Health,Spirit,Mood,Money,Create,Null}
+public enum Attribute { Health,Spirit,Mood,Money,Create,LoadingInt,Null}
 public class Person : MonoBehaviour
 {
     public string personName;
@@ -35,22 +35,26 @@ public class Person : MonoBehaviour
             Finish = true;
         if (runAway == true && GameManager.instance.workPersons.Contains(this))
             GameManager.instance.workPersons.Remove(this);
-
+        if (runAway == true)
+            Exist = !runAway;
     }
 
     public void NewPart()
     {
-        Exist = true;
-        //结算延时函数
-        SettleDelay();
-        Finish = false;
-        if(runAway==true)
-           Exist = !runAway;
-        //rollevent
-        if (Exist == true)
-        { RollEvent(); }
-        else
-            Event = 0;
+        if (runAway == false)
+        {
+            Exist = true;
+            //结算延时函数
+            SettleDelay();
+            Finish = false;
+
+            //rollevent
+            if (Exist == true)
+            { RollEvent(); }
+            else
+                Event = 0;
+        }
+        
 
 
 
@@ -89,6 +93,10 @@ public class Person : MonoBehaviour
         {
             GameManager.instance.create += dadjust;
         }
+        else if (dattr == Attribute.LoadingInt)
+        {
+            GameManager.instance.loadingInt += dadjust;
+        }
 
     }
 
@@ -102,6 +110,10 @@ public class Person : MonoBehaviour
             int a = 9999;
             if (health <= 0)
                 a = 10;
+            else if (mood <= 0)
+                a = 22;
+            else if (spirit <= 0)
+                a = 8;
             while (a == 9999)
             {
                 Event = Koubot.Tool.Random.RandomTool.GenerateRandomInt(1, 22);
@@ -131,10 +143,6 @@ public class Person : MonoBehaviour
                         break;
                     case 7://We gonna party！
                         a = 7;
-                        break;
-                    case 8://两眼一黑
-                        if (mood <= 0)
-                            a = 8;
                         break;
                     case 9://无能狂怒
                         if (personName == "大保" && mood <= 30)
@@ -175,9 +183,8 @@ public class Person : MonoBehaviour
                     case 21:
                         a = 21;
                         break;
-                    case 22:
-                        a = 22;
-                        break;
+
+
                     default: break;
                 }
 

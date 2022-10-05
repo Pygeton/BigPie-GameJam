@@ -11,8 +11,8 @@ public class PersonShow : MonoBehaviour
     public Text personHealth;
     public Text personSpirit;
     public Text personMood;
-    public Text exist;
-    public Text eventSwitch;
+    public GameObject eventIMG;
+    public GameObject notHere;
     private void Update()
     {
         personHealth.text ="健康: "+ person.health.ToString();
@@ -20,8 +20,8 @@ public class PersonShow : MonoBehaviour
         personMood.text = "心情: " + person.mood.ToString();
         if(person.Exist==false)
         {
-            exist.text = "不在";
-            eventSwitch.text = "";
+            eventIMG.SetActive(false);
+            notHere.SetActive(true);
         }
       
         if(person.Event!=0)
@@ -29,15 +29,15 @@ public class PersonShow : MonoBehaviour
 
             gameObject.GetComponent<Button>().enabled = true;
             gameObject.GetComponent<Button>().interactable = true;
-            exist.text = "";
-            eventSwitch.text = "！";
+            eventIMG.SetActive(true);
+            notHere.SetActive(false);
         }
 
         if(person.Finish==true)
         {
             gameObject.GetComponent<Button>().enabled = false;
             gameObject.GetComponent<Button>().interactable = false;
-            eventSwitch.text = "";
+            eventIMG.SetActive(false);
         }
 
         if(GameManager.instance.tempPerson==person)

@@ -338,6 +338,15 @@ public class TextScreen : MonoBehaviour
                     buttons[1].GetComponent<Button>().onClick.AddListener(A6B1);
                     break;
                 }
+            case 1007://活动:更换目标？
+                {
+                    screenText.text = "感觉开发陷入瓶颈，是否更换目标";
+                    buttons[0].SetText("感觉还可以拼搏一下"); 
+                    buttons[1].SetText("确实，大家有些不知所措了");
+                    buttons[0].GetComponent<Button>().onClick.AddListener(A7B0);
+                    buttons[1].GetComponent<Button>().onClick.AddListener(A7B1);
+                    break;
+                }
             default:
                 break; 
 
@@ -843,5 +852,31 @@ public class TextScreen : MonoBehaviour
                 GameManager.instance.create += 50;
             }
         }
+    }
+    void A7B0()
+    {
+        GameManager.instance.player.finish = true;
+        Finish();
+        screenText.text = "算了，继续拼搏一下";
+        GameManager.instance.RollPurpose();
+    }
+    void A7B1()
+    {
+        GameManager.instance.player.finish = true;
+        Finish();
+        screenText.text = "大家决定换个角度发展,说不定有意外发现呢";
+        int max = 0;
+        foreach (var p in GameManager.instance.workPersons)
+        {
+            if(p.spirit > max)
+                max = p.spirit;
+        }
+        if(Koubot.Tool.Random.RandomTool.GenerateRandomInt(0,99)<max)
+        {
+            GameManager.instance.workPersons[0].SetDelay(1, Attribute.LoadingInt, 5, true);
+            GameManager.instance.SetDelayedText(1, "哇哦，换个角度后真的有突破口哎，进度小幅度增加。");
+        }
+           
+            
     }
 }

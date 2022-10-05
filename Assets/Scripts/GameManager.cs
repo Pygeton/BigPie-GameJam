@@ -66,8 +66,44 @@ public class GameManager : MonoBehaviour
         workPersons.Add(p2Seeyn);
         workPersons.Add(p3BigBoom);
         workPersons.Add(p4Bony);
+        Begining();
     }
+    private void Begining()
+    {
+        int a = Koubot.Tool.Random.RandomTool.GenerateRandomInt(1, 5);
+        switch (a)
+        {
+            case 1:
+                money += 50;
+                create += 50;
+                break;
+            case 2:
+                foreach(var p in workPersons)
+                {
+                    p.health += Koubot.Tool.Random.RandomTool.GenerateRandomInt(10, 15);
+                }
+                break;
+            case 3:
+                foreach (var p in workPersons)
+                {
+                    p.spirit += Koubot.Tool.Random.RandomTool.GenerateRandomInt(10, 15);
+                }
+                break;
+            case 4:
+                foreach (var p in workPersons)
+                {
+                    p.mood += Koubot.Tool.Random.RandomTool.GenerateRandomInt(10, 15);
+                }
+                break;
+            case 5:
+                loadingInt += Koubot.Tool.Random.RandomTool.GenerateRandomInt(5, 20);
+                break;
+            default: break;
 
+
+        }
+
+    }
 
     private void Update()
     {
@@ -76,7 +112,7 @@ public class GameManager : MonoBehaviour
             loadingInt = 100;
         if(loadingInt<0)
             loadingInt = 0;
-        if(over==false&&(turn>=28||loadingInt==100))
+        if (over == false && (turn >= 28 || loadingInt == 100 || workPersons.Count == 0))
             over = true;
 
         if (over == true)
@@ -177,7 +213,7 @@ public class GameManager : MonoBehaviour
                 text = "美术素材(25):工作室资金>=500或者有在场员工学过美术";
                 break;
             case 9:
-                text = "思维风暴(25):创想值>=200";
+                text = "思维风暴(30):创想值>=300";
                 break;
             case 10:
                 text = "全速前进(35):在场人员精力总和>=150，健康总和>=150,心情总和>=150";
@@ -289,8 +325,8 @@ public class GameManager : MonoBehaviour
                     
                 break;
             case 9:
-                if (create >= 200)
-                    finishPoint = 25;
+                if (create >= 300)
+                    finishPoint = 30;
                 break;
             case 10:
                 int b1 = 0;
