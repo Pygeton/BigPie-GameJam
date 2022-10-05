@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public enum Attribute { Health,Spirit,Mood,Null}
+public enum Attribute { Health,Spirit,Mood,Money,Create,Null}
 public class Person : MonoBehaviour
 {
     public string personName;
@@ -13,6 +13,7 @@ public class Person : MonoBehaviour
     public bool Finish;
     public bool Exist;
 
+    public bool runAway;//”¿æ√≈‹¬∑
     [Header("—”≥ŸΩ·À„")]
     [SerializeField] private List<int> delayTurn;
     [SerializeField] private List<Attribute> delayAttributeType;
@@ -22,6 +23,7 @@ public class Person : MonoBehaviour
 
     protected void Start()
     {
+        runAway = false;
         NewPart();
     }
     // Update is called once per frame
@@ -31,19 +33,27 @@ public class Person : MonoBehaviour
             Finish = true;
         if(Event == 0)
             Finish = true;
+        if (runAway == true && GameManager.instance.workPersons.Contains(this))
+            GameManager.instance.workPersons.Remove(this);
 
     }
 
     public void NewPart()
     {
-
-        Finish = false;
         Exist = true;
-        //rollevent
-        RollEvent();
-        
         //Ω·À„—” ±∫Ø ˝
         SettleDelay();
+        Finish = false;
+        if(runAway==true)
+           Exist = !runAway;
+        //rollevent
+        if (Exist == true)
+        { RollEvent(); }
+        else
+            Event = 0;
+
+
+
 
     }
 
@@ -56,9 +66,9 @@ public class Person : MonoBehaviour
                 SettleSingleDelay(delayAttributeType[i], delayAttributeAdjust[i], delayExist[i]);
         }
     }
-    private void SettleSingleDelay(Attribute dattr, int dadjust, bool dexist)
+    private void SettleSingleDelay(Attribute dattr, int dadjust, bool exist)
     {
-        Exist = dexist;
+        Exist=exist;
         if (dattr == Attribute.Health)
         {
             health += dadjust;
@@ -71,16 +81,20 @@ public class Person : MonoBehaviour
         {
             mood += dadjust;
         }
-        else
+        else if(dattr == Attribute.Money)
         {
-
+            GameManager.instance.money += dadjust;
+        }
+        else if (dattr == Attribute.Create)
+        {
+            GameManager.instance.create += dadjust;
         }
 
     }
 
     private void RollEvent()
     {
-
+        
         if (Koubot.Tool.Random.RandomTool.GenerateRandomInt(0, 99) < 50)
             Event = 100;
         else
@@ -157,7 +171,7 @@ public class Person : MonoBehaviour
 
     public void SetDelay(int turn, Attribute attr, int adjust, bool exist)
     {
-        delayTurn.Add(turn);
+        delayTurn.Add(GameManager.instance.turn+turn);
         delayAttributeType.Add(attr);
         delayAttributeAdjust.Add(adjust);
         delayExist.Add(exist);

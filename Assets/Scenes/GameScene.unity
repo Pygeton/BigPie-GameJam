@@ -1110,6 +1110,7 @@ MonoBehaviour:
   p2Seeyn: {fileID: 1550961540}
   p3BigBoom: {fileID: 1355737136}
   p4Bony: {fileID: 822827455}
+  workPersons: []
   player: {fileID: 2119090270}
   TextScreenChange: 0
   eventCode: 0
@@ -1179,6 +1180,7 @@ MonoBehaviour:
   Event: 0
   Finish: 0
   Exist: 0
+  runAway: 0
   delayTurn: 
   delayAttributeType: 
   delayAttributeAdjust: 
@@ -1813,6 +1815,7 @@ MonoBehaviour:
   Event: 0
   Finish: 0
   Exist: 0
+  runAway: 0
   delayTurn: 
   delayAttributeType: 
   delayAttributeAdjust: 
@@ -3081,6 +3084,7 @@ MonoBehaviour:
   Event: 0
   Finish: 0
   Exist: 0
+  runAway: 0
   delayTurn: 
   delayAttributeType: 
   delayAttributeAdjust: 
@@ -3427,6 +3431,7 @@ MonoBehaviour:
   Event: 0
   Finish: 0
   Exist: 0
+  runAway: 0
   delayTurn: 
   delayAttributeType: 
   delayAttributeAdjust: 
@@ -4728,7 +4733,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b85a52c9d32f634bb7522b8c2959a64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerEvent: 1000
+  PlayerEvent: 1001
   finish: 0
 --- !u!1001 &8427550073016174036
 PrefabInstance:

@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public Person2Seeyn p2Seeyn;
     public Person3BigBoom p3BigBoom;
     public Person4Bony p4Bony;
+    public List<Person> workPersons=new List<Person>();
     public Player player;
     public bool TextScreenChange;//true时textscreen自动改变
     [Header("事件状态")]
@@ -31,8 +32,12 @@ public class GameManager : MonoBehaviour
     }
     public void Start()
     {
+        TextScreenShow(99);
         turn = 1;
-
+        workPersons.Add(p1VINK);
+        workPersons.Add(p2Seeyn);
+        workPersons.Add(p3BigBoom);
+        workPersons.Add(p4Bony);
     }
 
 

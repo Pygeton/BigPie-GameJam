@@ -209,6 +209,14 @@ public class TextScreen : MonoBehaviour
                     GameManager.instance.player.finish = true;
                     break;
                 }
+            case 1001://活动:测试
+                {
+                    screenText.text = "vink约会";
+                    GameManager.instance.p1VINK.SetDelay(1, Attribute.Null, 0, false);
+                    GameManager.instance.p1VINK.SetDelay(2, Attribute.Null, 0, false);
+                    GameManager.instance.player.finish = true;
+                    break;
+                }
             default:
                 break; 
 
@@ -402,8 +410,12 @@ public class TextScreen : MonoBehaviour
     }
     void E10B0()
     {
-        GameManager.instance.tempPerson.Exist = false;//out
+        GameManager.instance.tempPerson.runAway = true;//out
         //othermood-10
+       foreach(var p in GameManager.instance.workPersons)
+        {
+            p.mood -= 10;
+        }
         Finish();
         screenText.text = "表面看上去这很突然，其实" + GameManager.instance.tempPerson.personName + "的身体状况早已是油尽灯枯了。虽然其他成员都很悲痛，然而开发还是要继续。多多注意自己的身体吧。";
     }

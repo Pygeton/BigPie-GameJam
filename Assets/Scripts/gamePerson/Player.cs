@@ -6,15 +6,17 @@ public class Player : MonoBehaviour
 {
     public int PlayerEvent;
     public bool finish;
+
     void Start()
     {
+
         NextPart();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     public void ClickActivity()
     {
@@ -24,10 +26,17 @@ public class Player : MonoBehaviour
     {
         PlayerEvent = 1000;
         finish = false;
+
         //rollevent
+        PRollEvent();
 
 
-        //Ω·À„—” ±∫Ø ˝
 
+    }
+
+    private void PRollEvent()
+    {
+        int a = Koubot.Tool.Random.RandomTool.GenerateRandomInt(1000, 1001);
+        PlayerEvent = a;
     }
 }
