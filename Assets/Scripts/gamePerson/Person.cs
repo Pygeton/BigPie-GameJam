@@ -104,7 +104,7 @@ public class Person : MonoBehaviour
                 a = 10;
             while (a == 9999)
             {
-                Event = Koubot.Tool.Random.RandomTool.GenerateRandomInt(1, 16);
+                Event = Koubot.Tool.Random.RandomTool.GenerateRandomInt(1, 18);
                 
                 switch (Event)
                 {
@@ -160,8 +160,13 @@ public class Person : MonoBehaviour
                         if (mood <= 30)
                             a = 16;
                         break;
+                    case 17://学美术
+                        /*目前实现方法未知，参见文档*/
+                        break;
+                    case 18:
+                        a = 18;
+                        break;
                     default: break;
-
                 }
 
             }
