@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
     public void Start()
     {
         turn = 1;
-        SetMorning();
+
     }
 
 
@@ -52,7 +52,6 @@ public class GameManager : MonoBehaviour
     {
         eventCode = a;
         tempPerson = p;
-        TextScreenChange = true;
     }
     public void TextScreenShow(int a)//更新屏幕
     {
@@ -61,10 +60,17 @@ public class GameManager : MonoBehaviour
         TextScreenChange = true;
     }
 
-    public void SetMorning()
+    public void NextPart()
     {
-
         TextScreenShow(99);
+        turn++;
+        //判断目标是否达成
+
+        p1VINK.NewPart();
+        p2Seeyn.NewPart();
+        p3BigBoom.NewPart();
+        p4Bony.NewPart();
+        player.NextPart();
         
     }
 }

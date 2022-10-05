@@ -40,8 +40,8 @@ public class Person : MonoBehaviour
         Finish = false;
         Exist = true;
         //rollevent
-        //RollEvent();
-        Event = 1;
+        RollEvent();
+        
         //结算延时函数
         SettleDelay();
 
@@ -76,6 +76,83 @@ public class Person : MonoBehaviour
 
         }
 
+    }
+
+    private void RollEvent()
+    {
+
+        if (Koubot.Tool.Random.RandomTool.GenerateRandomInt(0, 99) < 50)
+            Event = 100;
+        else
+        {
+            int a = 9999;
+            if (health <= 0)
+                a = 10;
+            while (a == 9999)
+            {
+                Event = Koubot.Tool.Random.RandomTool.GenerateRandomInt(1, 16);
+                
+                switch (Event)
+                {
+                    case 1://翻江倒海
+                        if (health < 50)
+                            a = 1;
+                        break;
+                    case 2://虚弱
+                        if (spirit <= 30)
+                            a = 2;
+                        break;
+                    case 3://萎靡不振
+                        if (spirit <= 10)
+                            a = 3;
+                        break;
+                    case 4://不速之客
+                        a = 4;
+                        break;
+                    case 5://紧急进修
+                        a = 5;
+                        break;
+                    case 6://噩耗
+                        a = 6;
+                        break;
+                    case 7://We gonna party！
+                        a = 7;
+                        break;
+                    case 8://两眼一黑
+                        if (mood <= 0)
+                            a = 8;
+                        break;
+                    case 9://无能狂怒
+                        if (personName == "大保" && mood <= 30)
+                            a = 9;
+                        break;
+                    case 11://停电
+                            a = 11;
+                        break;
+                    case 12://飞来横祸
+                            a = 12;
+                        break;
+                    case 13://自我怀疑
+                        if (personName == "嗣yn" || personName == "大保")
+                            a = 13;
+                        break;
+                    case 14://故障
+                            a = 14;
+                        break;
+                    case 15://献计
+                        /*目前实现方法未知，参见文档*/
+                        break;
+                    case 16://开摆
+                        if (mood <= 30)
+                            a = 16;
+                        break;
+                    default: break;
+
+                }
+
+            }
+            Event = a;
+        }
     }
 
     public void SetDelay(int turn, Attribute attr, int adjust, bool exist)

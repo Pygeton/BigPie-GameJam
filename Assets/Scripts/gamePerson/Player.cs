@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     public bool finish;
     void Start()
     {
-        finish = false;
+        NextPart();
     }
 
     // Update is called once per frame
@@ -19,5 +19,15 @@ public class Player : MonoBehaviour
     public void ClickActivity()
     {
         GameManager.instance.TextScreenShow(PlayerEvent);
+    }
+    public void NextPart()
+    {
+        PlayerEvent = 1000;
+        finish = false;
+        //rollevent
+
+
+        //Ω·À„—” ±∫Ø ˝
+
     }
 }

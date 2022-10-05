@@ -1173,7 +1173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   personName: VINK
   bigHead: {fileID: 21300000, guid: 2f97a7560000c2749b042121334b044a, type: 3}
-  health: 0
+  health: -10
   spirit: 0
   mood: 50
   Event: 0
@@ -2289,7 +2289,6 @@ MonoBehaviour:
   - {fileID: 421837171}
   screenText: {fileID: 1730969400}
   nextBtn: {fileID: 1956297401}
-  currentPerson: {fileID: 0}
 --- !u!1 &1167365877
 GameObject:
   m_ObjectHideFlags: 0
@@ -4157,7 +4156,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1956297402}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 299366901}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: NextPart
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1956297402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4717,7 +4728,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b85a52c9d32f634bb7522b8c2959a64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerEvent: 2
+  PlayerEvent: 1000
   finish: 0
 --- !u!1001 &8427550073016174036
 PrefabInstance:

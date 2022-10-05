@@ -59,5 +59,6 @@ public class PersonShow : MonoBehaviour
     public void Click()
     {
         GameManager.instance.TextScreenShow(person.Event, person);
+        GameManager.instance.TextScreenChange = true;
     }
 }
