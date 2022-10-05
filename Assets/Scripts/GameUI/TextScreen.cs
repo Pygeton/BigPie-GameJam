@@ -22,6 +22,12 @@ public class TextScreen : MonoBehaviour
             SetChoiseScreen();
             GameManager.instance.TextScreenChange=false;
         }
+
+        if(GameManager.instance.player.finish==true&&!nextBtn.gameObject.activeInHierarchy)
+            nextBtn.gameObject.SetActive(true);
+        if (GameManager.instance.player.finish == false && nextBtn.gameObject.activeInHierarchy)
+            nextBtn.gameObject.SetActive(false);
+
     }
 
     private void HideAllBtns()
@@ -37,7 +43,10 @@ public class TextScreen : MonoBehaviour
     private void Finish()//当前人物完成事件处理
     {
         HideAllBtns();
-        currentPerson.Event = 0;
+        if(currentPerson!=null)
+            currentPerson.Event = 0;
+        else
+            GameManager.instance.player.finish = true;
     }
     public void SetChoiseScreen()
     {

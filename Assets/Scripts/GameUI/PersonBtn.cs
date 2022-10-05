@@ -18,10 +18,15 @@ public class PersonBtn : MonoBehaviour
     }
     private void Update()
     {
-        if(GameManager.instance.p1VINK.Finish==true&& GameManager.instance.p2Seeyn.Finish == true && GameManager.instance.p3BigBoom.Finish == true && GameManager.instance.p4Bony.Finish == true &&activity.enabled == false)
+        if(GameManager.instance.p1VINK.Finish==true&& GameManager.instance.p2Seeyn.Finish == true && GameManager.instance.p3BigBoom.Finish == true && GameManager.instance.p4Bony.Finish == true && GameManager.instance.player.finish == false && activity.enabled == false)
         {
             activity.enabled = true;
             activity.interactable = true;
+        }
+        else if(GameManager.instance.player.finish==true)
+        {
+            activity.enabled = false;
+            activity.interactable = false;
         }
     }
 

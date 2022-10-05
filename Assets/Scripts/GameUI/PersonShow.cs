@@ -40,7 +40,7 @@ public class PersonShow : MonoBehaviour
             eventSwitch.text = "";
         }
 
-        if(GameManager.instance.tempPerson==person&&person.Finish)
+        if(GameManager.instance.tempPerson==person)
         {
             GetComponent<Image>().color = new Color32(0, 225, 218, 225);
         }
