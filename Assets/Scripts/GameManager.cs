@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     public Text purposeText;
     public GameObject winObject;
     public GameObject lostObject;
+    public GameObject startObject;
     public GameObject pauseObject;
     public void Awake()
     {
@@ -41,6 +42,7 @@ public class GameManager : MonoBehaviour
         winObject.SetActive(false);
         lostObject.SetActive(false) ;
         pauseObject.SetActive(false);
+        startObject.SetActive(true);
         delayedShow.Add("");
         for (int i = 1; i < 28; i++)
         {
@@ -127,7 +129,10 @@ public class GameManager : MonoBehaviour
     }
 
 
-
+    public void CloseStart()
+    {
+        startObject.SetActive(false);
+    }
 
 
     public void TextScreenShow(int a,Person p)//更新屏幕
@@ -192,10 +197,10 @@ public class GameManager : MonoBehaviour
                 text = "体力活(10):在场的其中一个人员健康>=60";
                 break;
             case 2:
-                text = "思考题材(10):创想值>=50";
+                text = "思考题材(10):创想值>=20";
                 break;
             case 3:
-                text = "支持正版(10):总资产>=100";
+                text = "支持正版(10):总资产>=200";
                 break;
             case 4:
                 text = "精力充沛(10):VINK精力>=60";
@@ -204,22 +209,22 @@ public class GameManager : MonoBehaviour
                 text = "齐心协力(10):全部人员在场";
                 break;
             case 6:
-                text = "鼓舞(10):大保心情>=40";
+                text = "鼓舞(10):大保心情>=60";
                 break;
             case 7:
-                text = "紧急加班(25):在场人员精力总和>=150,心情总和>=150";
+                text = "紧急加班(25):在场人员精力总和>=200,心情总和>=200";
                 break;
             case 8:
                 text = "美术素材(25):工作室资金>=500或者有在场员工学过美术";
                 break;
             case 9:
-                text = "思维风暴(30):创想值>=300";
+                text = "思维风暴(30):创想值>=200";
                 break;
             case 10:
-                text = "全速前进(35):在场人员精力总和>=150，健康总和>=150,心情总和>=150";
+                text = "全速前进(35):在场人员精力总和>=200，健康总和>=200,心情总和>=200";
                 break;
             case 11:
-                text = "钞能力(35)工作室资金>=700";
+                text = "钞能力(35)工作室资金>=800";
                 break;
             default: break;
         }
@@ -265,20 +270,25 @@ public class GameManager : MonoBehaviour
         switch (PurposeCode)
         {
             case 1:
+                bool c = false;
                 foreach(var p in workPersons)
                 {
                     if(p.health>=60&&p.Exist)
-                        finishPoint = 10;
+                    {
+                        c = true;
+                    }
                 }
+                if(c==true)
+                    finishPoint = 10;
                 break;
             case 2:
-                if(create>= 50)
+                if(create>= 20)
                       finishPoint = 10;
                 break;
             case 3:
-                if(money>=100)
+                if(money>=200)
                 {
-                    money -= 100;
+                    money -= 200;
                     finishPoint = 10;
                 }
                     
@@ -298,7 +308,7 @@ public class GameManager : MonoBehaviour
                     finishPoint = 10;
                 break;
             case 6:
-                if (p3BigBoom.mood >= 40)
+                if (p3BigBoom.mood >= 60)
                     finishPoint = 10;
                 break;
             case 7:
@@ -311,21 +321,28 @@ public class GameManager : MonoBehaviour
                         a1 += p.spirit;
                         a2 += p.mood;
                     }
-                    if (a1 >= 150 && a2 >= 150)
+                    if (a1 >= 200 && a2 >= 200)
                         finishPoint = 25;
                 }
                 break;
             case 8:
-                if (money >= 500)
+                bool b = false;
+                foreach (var p in workPersons)
                 {
-                    //如果有美术则不需要花钱
-                    money -= 500;
+                    if (p.Draw == true)
+                        b = true;
+                }
+                if (money >= 500||b==true)
+                {
+                    
+                    if(b==false)
+                         money -= 500;
                     finishPoint = 25;
                 }
                     
                 break;
             case 9:
-                if (create >= 300)
+                if (create >= 200)
                     finishPoint = 30;
                 break;
             case 10:
@@ -340,14 +357,14 @@ public class GameManager : MonoBehaviour
                         b2 += p.health;
                         b3 += p.mood;
                     }
-                    if (b1 >= 150 && b2 >= 150&&b3>=150)
+                    if (b1 >= 200 && b2 >= 200&&b3>=200)
                         finishPoint = 35;
                 }
                 break;
             case 11:
-                if(money >= 700)
+                if(money >= 800)
                 {
-                    money -= 700;
+                    money -= 800;
                     finishPoint = 35;
                 }
                      

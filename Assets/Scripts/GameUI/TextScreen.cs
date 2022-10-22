@@ -269,7 +269,7 @@ public class TextScreen : MonoBehaviour
                     foreach(var p in GameManager.instance.workPersons)
                     {
                         p.spirit -= 5;
-                        GameManager.instance.create += 5;
+                        GameManager.instance.create += 20;
                     }
                     GameManager.instance.player.finish = true;
                     break;
@@ -328,15 +328,15 @@ public class TextScreen : MonoBehaviour
                         if (p.Exist == true)
                         {
                             p.spirit -= 30;
-                            for(int i= 0;i<4;i++)
+                            for(int i= 1;i<4;i++)
                             {
                                 p.SetDelay(i,Attribute.Null,0,false);
+                               
                             }
-                            p.SetDelay(5,Attribute.Money,500,true);
-
+                            p.SetDelay(4, Attribute.Money, 150, true);
                         }
                     }
-                    GameManager.instance.SetDelayedText(5, "芜湖！兼职工作为团队带来了一笔巨款！");
+                    GameManager.instance.SetDelayedText(4, "芜湖！兼职工作为团队带来了一笔巨款！");
                     GameManager.instance.player.finish = true;
                     break;
                 }
@@ -431,7 +431,7 @@ public class TextScreen : MonoBehaviour
     void E4B0()
     {
         GameManager.instance.tempPerson.SetDelay(1, Attribute.Null, 0, false);
-        GameManager.instance.tempPerson.SetDelay(2, Attribute.Null, 0, false);
+        GameManager.instance.tempPerson.SetDelay(2, Attribute.Mood, 50, false);
         Finish();
         screenText.text = "长期在外，能和父母视频通话的时间都很少，更不要说陪在身边了，还是好好享受一下家人陪伴的感觉吧，开发任务稍后再做也没事。（第二天无法进行开发，心情+50）";
     }
@@ -543,7 +543,7 @@ public class TextScreen : MonoBehaviour
         GameManager.instance.tempPerson.Exist = false;
         GameManager.instance.tempPerson.SetDelay(1, Attribute.Null, 0, false);
         GameManager.instance.tempPerson.SetDelay(2, Attribute.Health, -20, true);
-        GameManager.instance.SetDelayedText(2, "你缓缓睁开眼睛，一看电脑，发现竟然过了整整一天，你感觉头晕目眩...（健康-20）");
+        GameManager.instance.SetDelayedText(2, GameManager.instance.tempPerson.personName+"缓缓睁开眼睛，一看电脑，发现竟然过了整整一天，你感觉头晕目眩...（健康-20）");
         Finish();
         screenText.text = "你在房间里晕了过去。(当前和下一阶段都不能再进行开发）";
     }
@@ -700,10 +700,11 @@ public class TextScreen : MonoBehaviour
         }
         else
         {
-            GameManager.instance.SetDelayedText(4, "在学习中，你逐渐意识到这是爹咪想带人跳槽的阴谋，但是你坚定信念，回来与大伙共进退，大家都对你表示赞许。");
+            GameManager.instance.SetDelayedText(4, "在学习中，"+ GameManager.instance.tempPerson.personName+"逐渐意识到这是爹咪想带人跳槽的阴谋，但是你坚定信念，回来与大伙共进退，大家都对你表示赞许。");
             GameManager.instance.tempPerson.SetDelay(1, Attribute.Null, 0, false);
             GameManager.instance.tempPerson.SetDelay(2, Attribute.Null, 0, false);
             GameManager.instance.tempPerson.SetDelay(3, Attribute.Null, 0, false);
+            GameManager.instance.tempPerson.Draw = true;
         }
         Finish();
         screenText.text = "这是个提升画技的大好机会，怎么能错过呢？（暂时离开一段时间）";
@@ -848,19 +849,19 @@ public class TextScreen : MonoBehaviour
         if (result > 60)
         {
             GameManager.instance.tempPerson.SetDelay(6, Attribute.Mood, 30, true);
-            GameManager.instance.SetDelayedText(6, "小猫开始逐渐适应了和你一起生活，每天你只要起床看到它，就会感觉心情非常愉快。（心情+30）");
+            GameManager.instance.SetDelayedText(6, "小猫开始逐渐适应了和"+GameManager.instance.tempPerson.personName+" 一起生活，每天你只要起床看到它，就会感觉心情非常愉快。（心情+30）");
             Finish();
         }
         else if (result > 20)
         {
             GameManager.instance.tempPerson.SetDelay(6, Attribute.Health, -15, false);
-            GameManager.instance.SetDelayedText(6, "看上去小猫并不是那么友善，你试图去逗它的时候被它一爪子抓伤了，现在你得去医院打疫苗了。（当前阶段无法进行开发，健康-15）");
+            GameManager.instance.SetDelayedText(6, "看上去小猫并不是那么友善，" + GameManager.instance.tempPerson.personName + "试图去逗它的时候被它一爪子抓伤了，现在你得去医院打疫苗了。（当前阶段无法进行开发，健康-15）");
             Finish();
         }
         else
         {
             GameManager.instance.tempPerson.SetDelay(6, Attribute.Create, 30, true);
-            GameManager.instance.SetDelayedText(6, "你昨晚梦到你带回家的那只小猫化为了一只猫灵，并对你的善意表示了感谢，然后就离去了。你一觉醒来发现小猫真的不见了，但是不知为何，你的脑子里多了很多灵感，你的思路变得无比清晰，你感觉很神奇。（团队创想力+30）");
+            GameManager.instance.SetDelayedText(6, GameManager.instance.tempPerson.personName + "昨晚梦到你带回家的那只小猫化为了一只猫灵，并对你的善意表示了感谢，然后就离去了。你一觉醒来发现小猫真的不见了，但是不知为何，你的脑子里多了很多灵感，你的思路变得无比清晰，你感觉很神奇。（团队创想力+30）");
             Finish();
         }
         screenText.text = "你将小猫抱回了家并精心照料起来。";
@@ -889,8 +890,8 @@ public class TextScreen : MonoBehaviour
         GameManager.instance.player.finish=true;
         Finish();
         screenText.text = "双方满意，双向奔赴(?)";
-        GameManager.instance.create -= 100;
-        GameManager.instance.money += 200;
+        GameManager.instance.create -= 20;
+        GameManager.instance.money += 100;
     }
     void A6B1()
     {
@@ -916,13 +917,14 @@ public class TextScreen : MonoBehaviour
         GameManager.instance.player.finish = true;
         Finish();
         screenText.text = "算了，继续拼搏一下";
-        GameManager.instance.RollPurpose();
+        
     }
     void A7B1()
     {
         GameManager.instance.player.finish = true;
         Finish();
         screenText.text = "大家决定换个角度发展,说不定有意外发现呢";
+        GameManager.instance.RollPurpose();
         int max = 0;
         foreach (var p in GameManager.instance.workPersons)
         {

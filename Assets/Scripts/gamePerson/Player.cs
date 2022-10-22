@@ -37,7 +37,7 @@ public class Player : MonoBehaviour
     private void PRollEvent()
     {
             
-        if(Koubot.Tool.Random.RandomTool.GenerateRandomInt(0,99)>25+(GameManager.instance.turn%4)*5)
+        if(Koubot.Tool.Random.RandomTool.GenerateRandomInt(0,99)>30+(GameManager.instance.turn%4)*5)
         {
             PlayerEvent = 1000;
         }
@@ -78,7 +78,7 @@ public class Player : MonoBehaviour
                             a = 1005;
                         break;
                     case 1006:
-                        if (GameManager.instance.create >= 100)
+                        if (GameManager.instance.create >= 20)
                             a = 1006;
                         break;
                     case 1007:

@@ -12,7 +12,7 @@ public class Person : MonoBehaviour
     public int Event;
     public bool Finish;
     public bool Exist;
-
+    public bool Draw;
     public bool runAway;//”¿æ√≈‹¬∑
     [Header("—”≥ŸΩ·À„")]
     [SerializeField] private List<int> delayTurn;
@@ -23,6 +23,7 @@ public class Person : MonoBehaviour
 
     protected void Start()
     {
+        Draw = false;
         runAway = false;
         NewPart();
     }
