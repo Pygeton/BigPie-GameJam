@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     public int eventCode;
     public Person tempPerson;
     public bool over;
+    public bool finish;
     [Header("目标编号")]
     public int PurposeCode;
     public List<int> purposeList;
@@ -63,6 +64,7 @@ public class GameManager : MonoBehaviour
     public void Start()
     {
         over = false;
+        finish = false;
         TextScreenShow(99);
         turn = 1;
         purposeNum = 0;
@@ -117,20 +119,30 @@ public class GameManager : MonoBehaviour
             loadingInt = 100;
         if(loadingInt<0)
             loadingInt = 0;
-        if (over == false && (turn > 28 || loadingInt == 100 || workPersons.Count == 0))
+        if (over == false && (turn > 28 || loadingInt == 100 || workPersons.Count == 0)&&!(winObject.activeInHierarchy||lostObject.activeInHierarchy))
             over = true;
 
-        if (over == true)
+        if (over == true&&finish==false )
         {
-            over=false; 
-            if (loadingInt == 100)
-                winObject.SetActive(true);
-            else
-                lostObject.SetActive(true);
+            finish = true;
+            StartCoroutine(WinLost());
+
+            
         }
 
     }
 
+    IEnumerator WinLost()
+    {
+        Debug.Log("sb");
+        StartCoroutine(ShowNextPart());
+        yield return new WaitForSeconds(0.8f);
+        if (loadingInt == 100)
+            winObject.SetActive(true);
+        else
+            lostObject.SetActive(true);
+        
+    }
 
     public void CloseStart()
     {
@@ -154,7 +166,8 @@ public class GameManager : MonoBehaviour
     {
         
         turn++;
-        StartCoroutine(ShowNextPart());
+        if(over==false)
+            StartCoroutine(ShowNextPart());
         
         int a = CheckFinish();
         if (a!= 0)
@@ -177,19 +190,18 @@ public class GameManager : MonoBehaviour
 
     IEnumerator ShowNextPart()
     {
-        nextPartText.text = "";
-        nextPartObject.SetActive(true);
-        LeanTween.color(nextPartObject.GetComponent<RectTransform>(), new Color32(0, 0, 0, 255), 0.5f);
-        yield return new WaitForSeconds(0.3f);
-        nextPartText.text = NextPartText();
-        yield return new WaitForSeconds(1f);
-        TextScreenShow(99);//更新屏幕文字
-        LeanTween.color(nextPartObject.GetComponent<RectTransform>(), new Color32(0, 0, 0, 0), 0.3f);
-        yield return new WaitForSeconds(0.15f);
-        nextPartText.text = "";
-        yield return new WaitForSeconds(0.15f);
-        nextPartObject.SetActive(false);
-        
+            nextPartText.text = "";
+            nextPartObject.SetActive(true);
+            LeanTween.color(nextPartObject.GetComponent<RectTransform>(), new Color32(0, 0, 0, 255), 0.5f);
+            yield return new WaitForSeconds(0.3f);
+            nextPartText.text = NextPartText();
+            yield return new WaitForSeconds(1f);
+            TextScreenShow(99);//更新屏幕文字
+            LeanTween.color(nextPartObject.GetComponent<RectTransform>(), new Color32(0, 0, 0, 0), 0.3f);
+            yield return new WaitForSeconds(0.15f);
+            nextPartText.text = "";
+            yield return new WaitForSeconds(0.15f);
+            nextPartObject.SetActive(false);    
     }
 
     private string NextPartText()
@@ -200,6 +212,8 @@ public class GameManager : MonoBehaviour
             day+= "上午";
         else
             day+= "下午";
+        if (GameManager.instance.turn > 28)
+            day = "比赛截止";
         return day;
     }
     public void BackMenu()
