@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
     public GameObject lostObject;
     public GameObject startObject;
     public GameObject pauseObject;
+    public GameObject nextPartObject;
+    public Text nextPartText;
     public void Awake()
     {
         if (instance == null)
@@ -42,6 +44,7 @@ public class GameManager : MonoBehaviour
         winObject.SetActive(false);
         lostObject.SetActive(false) ;
         pauseObject.SetActive(false);
+        nextPartObject.SetActive(false) ;
         startObject.SetActive(true);
         delayedShow.Add("");
         for (int i = 1; i < 28; i++)
@@ -114,7 +117,7 @@ public class GameManager : MonoBehaviour
             loadingInt = 100;
         if(loadingInt<0)
             loadingInt = 0;
-        if (over == false && (turn >= 28 || loadingInt == 100 || workPersons.Count == 0))
+        if (over == false && (turn > 28 || loadingInt == 100 || workPersons.Count == 0))
             over = true;
 
         if (over == true)
@@ -149,8 +152,10 @@ public class GameManager : MonoBehaviour
 
     public void NextPart()
     {
-        TextScreenShow(99);
+        
         turn++;
+        StartCoroutine(ShowNextPart());
+        
         int a = CheckFinish();
         if (a!= 0)
         {
@@ -164,12 +169,39 @@ public class GameManager : MonoBehaviour
             p3BigBoom.NewPart();
             p4Bony.NewPart();
             player.NextPart();
-
+        
+        
         
         
     }
 
+    IEnumerator ShowNextPart()
+    {
+        nextPartText.text = "";
+        nextPartObject.SetActive(true);
+        LeanTween.color(nextPartObject.GetComponent<RectTransform>(), new Color32(0, 0, 0, 255), 0.5f);
+        yield return new WaitForSeconds(0.3f);
+        nextPartText.text = NextPartText();
+        yield return new WaitForSeconds(1f);
+        TextScreenShow(99);//更新屏幕文字
+        LeanTween.color(nextPartObject.GetComponent<RectTransform>(), new Color32(0, 0, 0, 0), 0.3f);
+        yield return new WaitForSeconds(0.15f);
+        nextPartText.text = "";
+        yield return new WaitForSeconds(0.15f);
+        nextPartObject.SetActive(false);
+        
+    }
 
+    private string NextPartText()
+    {
+        string day;
+        day= "第" + ((GameManager.instance.turn - 1) / 2 + 1) + "天 ";
+        if (GameManager.instance.turn % 2 == 1)
+            day+= "上午";
+        else
+            day+= "下午";
+        return day;
+    }
     public void BackMenu()
     {
         SceneManager.LoadScene("StartScene");
