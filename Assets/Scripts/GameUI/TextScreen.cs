@@ -191,7 +191,11 @@ public class TextScreen : MonoBehaviour
                 }
                 break;
             case 15://献计
-                int result = RandomTool.GenerateRandomInt(0, GameManager.instance.workPersons.Count - 1);
+                int result = RandomTool.GenerateRandomInt(0, GameManager.instance.workPersons.Count - 1);                
+                while(result== GameManager.instance.workPersons.IndexOf(GameManager.instance.tempPerson))
+                {
+                    result = RandomTool.GenerateRandomInt(0, GameManager.instance.workPersons.Count - 1);
+                }
                 p = GameManager.instance.workPersons[result];
                 screenText.text = "在一次讨论中，" + p.personName + "认为自己想到了一个很不错的想法，但是如果接纳了，" + GameManager.instance.tempPerson.personName + "的工作量会增加不少，怎么决定呢...？";
                 buttons[0].SetText("接纳");
@@ -214,7 +218,7 @@ public class TextScreen : MonoBehaviour
                 buttons[1].GetComponent<Button>().onClick.AddListener(E17B1);
                 break;
             case 18://心灵大师
-                screenText.text = GameManager.instance.tempPerson.personName + "正处于开发的困难时期，正在这个时候，他发现电脑上有一则广告：“心灵大师特里斯科特，揭露你心中的疑惑，只要99！”";
+                screenText.text = GameManager.instance.tempPerson.personName + "正处于开发的困难时期，正在这个时候，他发现电脑上有一则广告：“心灵大师特里斯科特，揭露你心中的疑惑，只要49！”";
                 buttons[0].SetText("也许可以试着去咨询一下？");
                 buttons[1].SetText("谁信这种东西啊");
                 buttons[0].GetComponent<Button>().onClick.AddListener(E18B0);
@@ -250,6 +254,13 @@ public class TextScreen : MonoBehaviour
                 buttons[0].SetText("啊这...");
                 buttons[0].GetComponent<Button>().onClick.AddListener(E22B0);
                 break;
+            case 23://挣外快
+                        screenText.text = GameManager.instance.tempPerson.personName + "有个实习的机会，但是会暂时离开开发组，要不要去呢?";
+                        buttons[0].SetText("去，也许会有什么意外收获呢？");
+                        buttons[0].GetComponent<Button>().onClick.AddListener(E23B0);
+                        buttons[1].SetText("不去，开发重要");
+                        buttons[1].GetComponent<Button>().onClick.AddListener(E23B1);
+                        break;
             case 100://无事发生
                 {
                     screenText.text = "什么事都没有发生，开发进度稳定！";
@@ -282,7 +293,7 @@ public class TextScreen : MonoBehaviour
                         if(p.Exist==true)
                         {
                             p.health += 25;
-                            p.spirit -= 20;
+                            p.spirit -= 5;
                         }                     
                     }
                     GameManager.instance.player.finish = true;
@@ -291,18 +302,10 @@ public class TextScreen : MonoBehaviour
             case 1003://活动:大保健
                 {
                     screenText.text = "大家决定一起花钱去SPA做特惠大保健，放松身心。";
-                    foreach (var p in GameManager.instance.workPersons)
-                    {
-                        if (p.Exist == true)
-                        {
-                            p.health += 10;
-                            p.spirit += 20;
-                            GameManager.instance.money -= 20;
-                        }
-                      
-                       
-                    }
-                    GameManager.instance.player.finish = true;
+                    buttons[0].SetText("好哎！走走走");
+                    buttons[1].SetText("还是省点钱吧");
+                    buttons[0].GetComponent<Button>().onClick.AddListener(A3B0);
+                    buttons[1].GetComponent<Button>().onClick.AddListener(A3B1);                    
                     break;
                 }
             case 1004://活动:看电影
@@ -373,9 +376,9 @@ public class TextScreen : MonoBehaviour
     //——————————————————————————事件按钮——————————————————————————
     void E100B0()
     {
-        GameManager.instance.tempPerson.spirit += 5;
-        GameManager.instance.tempPerson.health += 5;
-        GameManager.instance.tempPerson.mood += 5;
+        GameManager.instance.tempPerson.spirit += RandomTool.GenerateRandomInt(2,5);
+        GameManager.instance.tempPerson.health += RandomTool.GenerateRandomInt(2,5);
+        GameManager.instance.tempPerson.mood += RandomTool.GenerateRandomInt(2,5);
         Finish();
         screenText.text = "再接再厉！(各项属性少量增加）";
     }
@@ -430,10 +433,24 @@ public class TextScreen : MonoBehaviour
     }
     void E4B0()
     {
-        GameManager.instance.tempPerson.SetDelay(1, Attribute.Null, 0, false);
-        GameManager.instance.tempPerson.SetDelay(2, Attribute.Mood, 50, false);
+        if(GameManager.instance.turn%2==1)
+        {
+            int a = RandomTool.GenerateRandomInt(15, 25);
+            GameManager.instance.tempPerson.SetDelay(2, Attribute.Null, 0, false);
+            GameManager.instance.tempPerson.SetDelay(3, Attribute.Null, 0, false);
+            GameManager.instance.tempPerson.SetDelay(4, Attribute.Mood,a , true);
+            GameManager.instance.SetDelayedText(4,GameManager.instance.tempPerson.personName+ "和父母一起的一天非常快乐，心情也更加好了(心情+"+a+")");
+        }
+        else
+        {
+            int a = RandomTool.GenerateRandomInt(10, 20);
+            GameManager.instance.tempPerson.SetDelay(1, Attribute.Null, 0, false);
+            GameManager.instance.tempPerson.SetDelay(2, Attribute.Null, 0, false);
+            GameManager.instance.tempPerson.SetDelay(3, Attribute.Mood, a, true);
+            GameManager.instance.SetDelayedText(3, GameManager.instance.tempPerson.personName + "和父母一起的一天非常快乐，心情也更加好了(心情+" + a + ")");
+        }
         Finish();
-        screenText.text = "长期在外，能和父母视频通话的时间都很少，更不要说陪在身边了，还是好好享受一下家人陪伴的感觉吧，开发任务稍后再做也没事。（第二天无法进行开发，心情+50）";
+        screenText.text = "长期在外，能和父母视频通话的时间都很少，更不要说陪在身边了，还是好好享受一下家人陪伴的感觉吧，开发任务稍后再做也没事。（第二天无法进行开发，陪伴完后心情随机增加）";
     }
     void E4B1()
     {
@@ -543,7 +560,7 @@ public class TextScreen : MonoBehaviour
         GameManager.instance.tempPerson.Exist = false;
         GameManager.instance.tempPerson.SetDelay(1, Attribute.Null, 0, false);
         GameManager.instance.tempPerson.SetDelay(2, Attribute.Health, -20, true);
-        GameManager.instance.SetDelayedText(2, GameManager.instance.tempPerson.personName+"缓缓睁开眼睛，一看电脑，发现竟然过了整整一天，你感觉头晕目眩...（健康-20）");
+        GameManager.instance.SetDelayedText(2, GameManager.instance.tempPerson.personName+"缓缓睁开眼睛，一看电脑，发现竟然过了整整一天，"+ GameManager.instance.tempPerson.personName+"感觉头晕目眩...（健康-20）");
         Finish();
         screenText.text = "你在房间里晕了过去。(当前和下一阶段都不能再进行开发）";
     }
@@ -653,9 +670,17 @@ public class TextScreen : MonoBehaviour
     }
     void E14B1()
     {
-        GameManager.instance.money -= 100;
+        if(GameManager.instance.money>=100)
+        {
+            GameManager.instance.money -= 100;          
+            screenText.text = "请人来维修是最快的选择，虽然要花点钱就是了。（团队资金-100）";
+        }
+        else
+        {
+            GameManager.instance.tempPerson.mood -= 20;
+            screenText.text = "才发现钱不够修电脑，这下更加烦躁了:(（心情-20）";
+        }
         Finish();
-        screenText.text = "请人来维修是最快的选择，虽然要花点钱就是了。（团队资金-100）";
     }
     void E14B2()
     {
@@ -665,15 +690,15 @@ public class TextScreen : MonoBehaviour
     }
     void E15B0()
     {
-        GameManager.instance.tempPerson.spirit -= 25;
+        GameManager.instance.tempPerson.spirit -= 10;
         Finish();
-        screenText.text = "虽然累是累了点，但是对做出成品有帮助就行，无所谓了。（" + GameManager.instance.tempPerson.personName + "精力-25）";
+        screenText.text = "虽然累是累了点，但是对做出成品有帮助就行，无所谓了。（" + GameManager.instance.tempPerson.personName + "精力-10）";
     }
     void E15B1()
     {
-        GameManager.instance.tempPerson.mood -= 15;
+        p.mood -= 20;
         Finish();
-        screenText.text = "你拒绝了" + p.personName + "的建议，但是他还是坚持认为他的想法很不错，所以他很不开心。（" + p.personName + "心情-15）";
+        screenText.text = "你拒绝了" + p.personName + "的建议，但是他还是坚持认为他的想法很不错，所以他很不开心。（" + p.personName + "心情-20）";
     }
     void E16B0()
     {
@@ -685,7 +710,7 @@ public class TextScreen : MonoBehaviour
     void E17B0()
     {
         GameManager.instance.tempPerson.Exist = false;
-        int bad = 30;
+        int bad = 20;
         if (GameManager.instance.tempPerson.mood <= 30) bad = 60;
         int result = RandomTool.GenerateRandomInt(1, 100);
         if (result <= bad)
@@ -717,27 +742,33 @@ public class TextScreen : MonoBehaviour
     }
     void E18B0()
     {
-        if (GameManager.instance.money < 99)
+        if (GameManager.instance.money < 49)
         {
             Finish();
             screenText.text = "虽然你想要咨询一下大师的意见，但是你发现你似乎钱不够，还是算了。";
         }
         else
         {
-            GameManager.instance.money -= 99;
+            GameManager.instance.money -= 49;
             GameManager.instance.tempPerson.Exist = false;
             int result = RandomTool.GenerateRandomInt(1, 100);
-            if (result > 70)
+            if (result > 80)
             {
-                GameManager.instance.create += 20;
+                GameManager.instance.create += 50;
                 Finish();
-                screenText.text = "大师果然名不虚传，他甚至没有询问就揭露了你的问题所在，而且经过一番指点，你的灵感如泉水一般涌现！（团队创造力+20）";
+                screenText.text = "大师果然名不虚传，他甚至没有询问就揭露了你的问题所在，而且经过一番指点，你的灵感如泉水一般涌现！（团队创造力+50）";
             }
-            else if (result > 40)
+            else if (result > 60)
             {
                 GameManager.instance.tempPerson.mood += 20;
                 Finish();
                 screenText.text = "尽管大师并没有完全解决你的问题，但是他的话术确实有一手，也确实揭露了你的一些困惑，你至少心情好了不少。（心情+20）";
+            }
+            else if (result > 40)
+            {
+                GameManager.instance.tempPerson.spirit += 20;
+                Finish();
+                screenText.text = "大师看得出你萎靡不振，给你来了套按摩，一套下来，你感觉神清气爽。（精力+20）";
             }
             else
             {
@@ -754,7 +785,7 @@ public class TextScreen : MonoBehaviour
     }
     void E19B0()
     {
-        if (GameManager.instance.money < 1000)
+        if (GameManager.instance.money < 500)
         {
             Finish();
             screenText.text = "虽然你很想买下这个盒子，但是你摸了摸口袋，好像钱不够，还是算了。";
@@ -800,7 +831,7 @@ public class TextScreen : MonoBehaviour
     void E19B1()
     {
         Finish();
-        screenText.text = "就一个破盒子还卖1000块？会买这个的要么就是闲的没事干的土豪要不就是脑子有问题。";
+        screenText.text = "就一个破盒子还卖500块？会买这个的要么就是闲的没事干的土豪要不就是脑子有问题。";
     }
     void E20B0()
     {
@@ -849,29 +880,41 @@ public class TextScreen : MonoBehaviour
         if (result > 60)
         {
             GameManager.instance.tempPerson.SetDelay(6, Attribute.Mood, 30, true);
-            GameManager.instance.SetDelayedText(6, "小猫开始逐渐适应了和"+GameManager.instance.tempPerson.personName+" 一起生活，每天你只要起床看到它，就会感觉心情非常愉快。（心情+30）");
+            GameManager.instance.SetDelayedText(6, "小猫开始逐渐适应了和"+GameManager.instance.tempPerson.personName+" 一起生活，每天只要起床看到它，就会感觉心情非常愉快。（心情+30）");
             Finish();
         }
         else if (result > 20)
         {
             GameManager.instance.tempPerson.SetDelay(6, Attribute.Health, -15, false);
-            GameManager.instance.SetDelayedText(6, "看上去小猫并不是那么友善，" + GameManager.instance.tempPerson.personName + "试图去逗它的时候被它一爪子抓伤了，现在你得去医院打疫苗了。（当前阶段无法进行开发，健康-15）");
+            GameManager.instance.SetDelayedText(6, "看上去小猫并不是那么友善，" + GameManager.instance.tempPerson.personName + "试图去逗它的时候被它一爪子抓伤了，现在得去医院打疫苗了。（当前阶段无法进行开发，健康-15）");
             Finish();
         }
         else
         {
             GameManager.instance.tempPerson.SetDelay(6, Attribute.Create, 30, true);
-            GameManager.instance.SetDelayedText(6, GameManager.instance.tempPerson.personName + "昨晚梦到你带回家的那只小猫化为了一只猫灵，并对你的善意表示了感谢，然后就离去了。你一觉醒来发现小猫真的不见了，但是不知为何，你的脑子里多了很多灵感，你的思路变得无比清晰，你感觉很神奇。（团队创想力+30）");
+            GameManager.instance.SetDelayedText(6, GameManager.instance.tempPerson.personName + "昨晚梦到带回家的那只小猫化为了一只猫灵，并表示了感谢，然后就离去了。一觉醒来发现小猫真的不见了，但是不知为何，脑子里多了很多灵感，思路变得无比清晰，感觉很神奇。（团队创想力+30）");
             Finish();
         }
         screenText.text = "你将小猫抱回了家并精心照料起来。";
     }
     void E21B1()
     {
-        GameManager.instance.tempPerson.Exist = false;
-        GameManager.instance.tempPerson.mood += 15;
+        
+    
+        int rInt = RandomTool.GenerateRandomInt(0, 1);
+        if(rInt == 0)
+        {
+            GameManager.instance.tempPerson.Exist = false;
+            GameManager.instance.tempPerson.mood += 15;
+            screenText.text = "你花了不少时间抱着这只小猫寻找流浪动物收容站。最终收容站的工作人员将小猫接过并对你表示了赞许，你感觉一切都是有意义的。（当前阶段无法行动，心情+15）";
+        }
+        else
+        {
+            GameManager.instance.tempPerson.Exist = false;
+            GameManager.instance.tempPerson.mood -= 20;
+            screenText.text = "小猫看到你就吓跑了，你很沮丧（心情-20）";
+        }
         Finish();
-        screenText.text = "你花了不少时间抱着这只小猫寻找流浪动物收容站。最终收容站的工作人员将小猫接过并对你表示了赞许，你感觉一切都是有意义的。（当前阶段无法行动，心情+15）";
     }
     void E21B2()
     {
@@ -884,6 +927,89 @@ public class TextScreen : MonoBehaviour
         GameManager.instance.tempPerson.runAway = true;
         Finish();
         screenText.text = "虽然很遗憾，但是毕竟大家也是兴趣使然，不能干扰个人的决定，希望能够顺利将作品完成吧。";
+    }
+    void E23B0()
+    {
+        int days = new int();
+        int caseInt=new int();
+        days = RandomTool.GenerateRandomInt(1, 4);
+        caseInt= RandomTool.GenerateRandomInt(0, 99);
+        if(caseInt<50)
+        {
+            if(GameManager.instance.tempPerson.personName=="VINK"&&days>=3)
+            {
+                GameManager.instance.p1VINK.Draw = true;
+                GameManager.instance.p1VINK.SetDelay(days+1,Attribute.Spirit,-5*days,true);
+                GameManager.instance.SetDelayedText(days + 1,"VINK在这次实习中学会了最新最热的AI画图，但是因为整天沉迷看图耗费了不少精力。(精力-" + 5 * days + ")");
+            }
+            else if (GameManager.instance.tempPerson.personName == "公泥"&&days<=2)
+            {
+                GameManager.instance.SetDelayedText(days + 1, "没想到公泥实习的内容是搬砖,但是因为他擅长摸鱼，没怎么消耗体力");
+            }
+            else if (GameManager.instance.tempPerson.personName == "嗣yn" && days >=1)
+            {
+                int mood = RandomTool.GenerateRandomInt(-20, 30);
+                if(mood>0)
+                    GameManager.instance.SetDelayedText(days + 1, "嗣yn在实习中认识了很多大大，这次实习很开心。(心情+"+mood+")");
+                else
+                    GameManager.instance.SetDelayedText(days + 1, "嗣yn在实习中被一些无理取闹的人严重影响了心情。(心情" +mood + ")");
+                GameManager.instance.p2Seeyn.SetDelay(days + 1,Attribute.Mood,mood,true);
+            }
+            else if (GameManager.instance.tempPerson.personName == "大保"&&days>=3)
+            {
+                int b = RandomTool.GenerateRandomInt(1, 20);
+                GameManager.instance.SetDelayedText(days + 1, "没想到太保实习的内容是搬砖,但是他苦中作乐,甚至还减肥了。(健康+"+b+")");          
+            }
+            else
+            {
+                GameManager.instance.SetDelayedText(days + 1,"没想到"+ GameManager.instance.tempPerson.personName + "实习的内容是搬砖," + GameManager.instance.tempPerson.personName+"耗费许多体力。(健康-"+ 5 * days + ")");
+                GameManager.instance.tempPerson.SetDelay(days + 1, Attribute.Health, -5 * days, true);
+            }
+        }
+        for(int i=1; i <= days; i++)
+        {
+            GameManager.instance.tempPerson.SetDelay(i, Attribute.Null, 0, false);
+        }
+        Finish();
+        screenText.text = "看看实习有什么收获吧";
+        GameManager.instance.SetDelayedText(days + 1, GameManager.instance.tempPerson.personName + "为团队挣了" + days * 50 + "块钱");
+    }
+    void E23B1()
+    {
+        Finish();
+        screenText.text = "想到繁重的开发任务，你拒绝了这次机会";
+    }
+    void A3B0()
+    {
+        int a = 0;
+        foreach (var p in GameManager.instance.workPersons)
+        {
+            a++;
+        }
+        if (GameManager.instance.money >= a * 20)
+        {
+            foreach (var p in GameManager.instance.workPersons)
+            {
+                if (p.Exist == true)
+                {
+                    p.health += 10;
+                    p.spirit += 20;
+                    GameManager.instance.money -= 20;
+                }
+            }
+            GameManager.instance.SetDelayedText(1, "参与者每人花了20块做大保健，心情舒畅(参与者健康+10,精力+20)");
+        }
+        else
+        {
+            GameManager.instance.SetDelayedText(1, "大家去到才发现不够钱做大保健，遗憾离场");
+        }
+        GameManager.instance.player.finish = true;
+        Finish();
+    }
+    void A3B1()
+    {
+        Finish();
+        screenText.text = "算了算了，省点";
     }
     void A6B0()
     {

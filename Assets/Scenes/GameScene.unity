@@ -1184,6 +1184,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2056250245}
     m_Modifications:
+    - target: {fileID: 1364076851203495387, guid: 34ba805de12812042b286541bfeba3dd, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: cd44863accd9e754f9af84df18116a06, type: 3}
     - target: {fileID: 1380734537903830138, guid: 34ba805de12812042b286541bfeba3dd, type: 3}
       propertyPath: m_Text
       value: "\u5065\u5EB7\uFF1A1"
@@ -1455,8 +1459,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.21289, y: 171.83846}
-  m_SizeDelta: {x: 745.73, y: 120.9631}
+  m_AnchoredPosition: {x: -0.7121, y: 0.7452}
+  m_SizeDelta: {x: 732.2308, y: 453.2336}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &266132921
 MonoBehaviour:
@@ -1771,8 +1775,9 @@ MonoBehaviour:
   eventCode: 0
   tempPerson: {fileID: 0}
   over: 0
+  finish: 0
+  pauseSwitch: 0
   PurposeCode: 0
-  purposeList: 
   purposeText: {fileID: 1223641711}
   winObject: {fileID: 959238917}
   lostObject: {fileID: 1632897960}
@@ -1838,7 +1843,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   personName: VINK
-  bigHead: {fileID: 21300000, guid: 2f97a7560000c2749b042121334b044a, type: 3}
+  bigHead: {fileID: 21300000, guid: 154d419cb6e5c1742bc2be8e1f90aa07, type: 3}
   health: 50
   spirit: 50
   mood: 50
@@ -2245,6 +2250,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2056250245}
     m_Modifications:
+    - target: {fileID: 1364076851203495387, guid: 34ba805de12812042b286541bfeba3dd, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 154d419cb6e5c1742bc2be8e1f90aa07, type: 3}
     - target: {fileID: 1380734537903830138, guid: 34ba805de12812042b286541bfeba3dd, type: 3}
       propertyPath: m_Text
       value: "\u5065\u5EB7\uFF1A1"
@@ -2421,7 +2430,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 83.5, y: 19.5}
+  m_AnchoredPosition: {x: 83.5, y: 20.8}
   m_SizeDelta: {x: 153.4931, y: 29.8793}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &508362843
@@ -3044,7 +3053,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   personName: "\u516C\u6CE5"
-  bigHead: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  bigHead: {fileID: 21300000, guid: cef0679945251f640ab7daa8195599e7, type: 3}
   health: 50
   spirit: 50
   mood: 50
@@ -3819,7 +3828,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: ff56090924e668341a972141df23f551, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4145,8 +4154,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 70.43442, y: -7.96}
-  m_SizeDelta: {x: 327.0567, y: 40.2427}
+  m_AnchoredPosition: {x: 70.43442, y: -10.9912}
+  m_SizeDelta: {x: 327.0567, y: 46.305}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1223641711
 MonoBehaviour:
@@ -4831,7 +4840,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   personName: "\u5927\u4FDD"
-  bigHead: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
+  bigHead: {fileID: 21300000, guid: 5a6c9d4585d488b4c840eb3e179918c4, type: 3}
   health: 50
   spirit: 50
   mood: 50
@@ -5092,6 +5101,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2056250245}
     m_Modifications:
+    - target: {fileID: 1364076851203495387, guid: 34ba805de12812042b286541bfeba3dd, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: cef0679945251f640ab7daa8195599e7, type: 3}
     - target: {fileID: 4401277286324404799, guid: 34ba805de12812042b286541bfeba3dd, type: 3}
       propertyPath: m_Color.b
       value: 1
@@ -5369,7 +5382,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   personName: "\u55E3yn"
-  bigHead: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  bigHead: {fileID: 21300000, guid: cd44863accd9e754f9af84df18116a06, type: 3}
   health: 50
   spirit: 50
   mood: 50
@@ -5646,8 +5659,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.21216, y: 79.8}
-  m_SizeDelta: {x: 745.73, y: 278.8575}
+  m_AnchoredPosition: {x: -1.1044, y: 73.55383}
+  m_SizeDelta: {x: 686.8378, y: 266.3652}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1730969400
 MonoBehaviour:
@@ -5676,7 +5689,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 40
-    m_Alignment: 4
+    m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -7126,6 +7139,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2056250245}
     m_Modifications:
+    - target: {fileID: 1364076851203495387, guid: 34ba805de12812042b286541bfeba3dd, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5a6c9d4585d488b4c840eb3e179918c4, type: 3}
     - target: {fileID: 4401277286324404799, guid: 34ba805de12812042b286541bfeba3dd, type: 3}
       propertyPath: m_Color.b
       value: 1

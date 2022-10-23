@@ -156,6 +156,7 @@ public class Person : MonoBehaviour
                             a = 11;
                         break;
                     case 12://飞来横祸
+                        if(Koubot.Tool.Random.RandomTool.GenerateRandomInt(1,100)<30)
                             a = 12;
                         break;
                     case 13://自我怀疑
@@ -167,6 +168,7 @@ public class Person : MonoBehaviour
                         break;
                     case 15://献计
                         /*目前实现方法未知，参见文档*/
+                            a=15;
                         break;
                     case 16://开摆
                         if (mood <= 30)
@@ -186,6 +188,9 @@ public class Person : MonoBehaviour
                         a = 20;
                         break;
                     case 21:
+                        a = 21;
+                        break;
+                    case 23:
                         a = 21;
                         break;
 

@@ -25,9 +25,9 @@ public class GameManager : MonoBehaviour
     public Person tempPerson;
     public bool over;
     public bool finish;
+    public bool pauseSwitch;
     [Header("目标编号")]
     public int PurposeCode;
-    public List<int> purposeList;
     public Text purposeText;
     public GameObject winObject;
     public GameObject lostObject;
@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviour
     {
         over = false;
         finish = false;
+        pauseSwitch = false;
         TextScreenShow(99);
         turn = 1;
         purposeNum = 0;
@@ -114,35 +115,20 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        purposeText.text = PurposeText(PurposeCode);
+        if(pauseSwitch==false)
+            purposeText.text = PurposeText(PurposeCode);
         if (loadingInt>100)
             loadingInt = 100;
         if(loadingInt<0)
             loadingInt = 0;
-        if (over == false && (turn > 28 || loadingInt == 100 || workPersons.Count == 0)&&!(winObject.activeInHierarchy||lostObject.activeInHierarchy))
+        if (over == false && (turn >= 28 || loadingInt == 100 || workPersons.Count == 0)&&!(winObject.activeInHierarchy||lostObject.activeInHierarchy))
             over = true;
 
-        if (over == true&&finish==false )
-        {
-            finish = true;
-            StartCoroutine(WinLost());
-
-            
-        }
+       
 
     }
 
-    IEnumerator WinLost()
-    {
-        Debug.Log("sb");
-        StartCoroutine(ShowNextPart());
-        yield return new WaitForSeconds(0.8f);
-        if (loadingInt == 100)
-            winObject.SetActive(true);
-        else
-            lostObject.SetActive(true);
-        
-    }
+
 
     public void CloseStart()
     {
@@ -162,32 +148,56 @@ public class GameManager : MonoBehaviour
         TextScreenChange = true;
     }
 
+    //按钮nextpart
     public void NextPart()
     {
-        
-        turn++;
-        if(over==false)
-            StartCoroutine(ShowNextPart());
-        
+        pauseSwitch = true;//暂停屏幕更新
         int a = CheckFinish();
-        if (a!= 0)
+        if (a != 0)
         {
             loadingInt += a;
             RollPurpose();
         }
-
-       
-            p1VINK.NewPart();
-            p2Seeyn.NewPart();
-            p3BigBoom.NewPart();
-            p4Bony.NewPart();
-            player.NextPart();
-        
-        
-        
-        
+        StartCoroutine(WinOrLostPart());
+            
     }
 
+    IEnumerator WinOrLostPart()
+    {     
+        yield return null;
+        turn++;
+        if (over == true && finish == false)
+        {
+            finish = true;
+            StartCoroutine(WinLost());
+        }
+        else if (over == false)
+        {             
+            if (over == false)
+                StartCoroutine(ShowNextPart()); 
+        }
+
+    }
+    IEnumerator WinLost()
+    {
+        Debug.Log("游戏结束");
+        StartCoroutine(ShowNextPart());
+        yield return new WaitForSeconds(0.8f);
+        if (loadingInt == 100)
+            winObject.SetActive(true);
+        else
+            lostObject.SetActive(true);
+
+    }
+    private void PersonNextPart()
+    {
+        
+        p1VINK.NewPart();
+        p2Seeyn.NewPart();
+        p3BigBoom.NewPart();
+        p4Bony.NewPart();
+        player.NextPart();
+    }
     IEnumerator ShowNextPart()
     {
             nextPartText.text = "";
@@ -196,12 +206,17 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(0.3f);
             nextPartText.text = NextPartText();
             yield return new WaitForSeconds(1f);
+        //转场黑屏的时候更新
             TextScreenShow(99);//更新屏幕文字
+            pauseSwitch = false;//恢复屏幕更新
+        PersonNextPart();//全员更新
+        //恢复屏幕
             LeanTween.color(nextPartObject.GetComponent<RectTransform>(), new Color32(0, 0, 0, 0), 0.3f);
             yield return new WaitForSeconds(0.15f);
             nextPartText.text = "";
             yield return new WaitForSeconds(0.15f);
-            nextPartObject.SetActive(false);    
+            nextPartObject.SetActive(false);
+            
     }
 
     private string NextPartText()
@@ -230,7 +245,7 @@ public class GameManager : MonoBehaviour
     }
     public void SetDelayedText(int a,string text)
     {
-        delayedShow[turn + a-1] += text + "\n";
+        delayedShow[turn + a-1] +="·"+ text + "\n";
     }
 
 
@@ -287,23 +302,28 @@ public class GameManager : MonoBehaviour
             if (purposeNum <= 4)
             {
                 int b = Koubot.Tool.Random.RandomTool.GenerateRandomInt(1, 6);
-                if (!purposeList.Contains(b))
+                if (b != PurposeCode)
                     a = b;
             }
             else if (purposeNum == 5)
             {
                 int b = Koubot.Tool.Random.RandomTool.GenerateRandomInt(7, 9);
-                if (!purposeList.Contains(b))
+                if (b != PurposeCode)
                     a = b;
             }
             else if (purposeNum == 6)
             {
                 int b = Koubot.Tool.Random.RandomTool.GenerateRandomInt(10, 11);
-                if (!purposeList.Contains(b))
+                if (b != PurposeCode)
                     a = b;
             }
             else
-                a = Koubot.Tool.Random.RandomTool.GenerateRandomInt(1, 11);
+            {
+                int b = Koubot.Tool.Random.RandomTool.GenerateRandomInt(1, 11);
+                if (b != PurposeCode)
+                    a = b;
+            }
+                
         }
         
         PurposeCode = a;           

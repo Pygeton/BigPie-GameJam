@@ -60,11 +60,14 @@ public class Player : MonoBehaviour
                         }
                         break;
                     case 1003:
-                        foreach (var p in GameManager.instance.workPersons)
+                        if(GameManager.instance.money>=50)
                         {
-                            if (p.Exist == true && p.spirit <= 30)
-                                a = 1003;
-                        }
+                            foreach (var p in GameManager.instance.workPersons)
+                            {
+                                if (p.Exist == true && p.spirit <= 50)
+                                    a = 1003;
+                            }
+                        }    
                         break;
                     case 1004:
                         foreach (var p in GameManager.instance.workPersons)
