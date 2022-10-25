@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     public GameObject winObject;
     public GameObject lostObject;
     public GameObject startObject;
+    public GameObject teachObject;
     public GameObject pauseObject;
     public GameObject nextPartObject;
     public Text nextPartText;
@@ -46,6 +47,7 @@ public class GameManager : MonoBehaviour
         lostObject.SetActive(false) ;
         pauseObject.SetActive(false);
         nextPartObject.SetActive(false) ;
+        teachObject.SetActive(false) ;
         startObject.SetActive(true);
         delayedShow.Add("");
         for (int i = 1; i < 28; i++)
@@ -133,9 +135,13 @@ public class GameManager : MonoBehaviour
     public void CloseStart()
     {
         startObject.SetActive(false);
+        teachObject.SetActive(true);
     }
 
-
+    public void CloseTeach()
+    {
+        teachObject.SetActive(false);
+    }
     public void TextScreenShow(int a,Person p)//¸üÐÂÆÁÄ»
     {
         eventCode = a;

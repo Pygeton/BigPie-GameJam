@@ -58,7 +58,7 @@ public class TextScreen : MonoBehaviour
             case 99:
                 {
                     if (GameManager.instance.delayedShow[GameManager.instance.turn-1] == "")
-                        screenText.text = "结算完所有人员的事件后会开启活动按钮，点下一阶段推进日程。";
+                        screenText.text = "结算完所有人员的事件后会开启活动按钮，点下一阶段推进日程。\n达成目标要求会增加进度，14天内进度达到100%则挑战成功。";
                     else
                         screenText.text = GameManager.instance.delayedShow[GameManager.instance.turn-1];
                     break;
@@ -315,11 +315,13 @@ public class TextScreen : MonoBehaviour
                     {
                         if (p.Exist == true)
                         {
-                            p.health += 10;
-                            p.spirit += 20;                          
+                            p.SetDelay(1, Attribute.Health, 10, true);
+                            p.SetDelay(1,Attribute.Spirit,20,true);
+                                            
                         }
                     }
                     GameManager.instance.player.finish = true;
+                    GameManager.instance.SetDelayedText(1, "参与者为了看免费电影跑了大老远路，精神娱乐的同时还顺便锻炼了身体。(参与者健康+10,精力+20)");
                     break;
                 }
             case 1005://活动:集体兼职
@@ -880,7 +882,7 @@ public class TextScreen : MonoBehaviour
         if (result > 60)
         {
             GameManager.instance.tempPerson.SetDelay(6, Attribute.Mood, 30, true);
-            GameManager.instance.SetDelayedText(6, "小猫开始逐渐适应了和"+GameManager.instance.tempPerson.personName+" 一起生活，每天只要起床看到它，就会感觉心情非常愉快。（心情+30）");
+            GameManager.instance.SetDelayedText(6, "小猫开始逐渐适应了和"+GameManager.instance.tempPerson.personName+"一起生活，每天只要起床看到它，就会感觉心情非常愉快。（心情+30）");
             Finish();
         }
         else if (result > 20)
@@ -997,11 +999,11 @@ public class TextScreen : MonoBehaviour
                     GameManager.instance.money -= 20;
                 }
             }
-            GameManager.instance.SetDelayedText(1, "参与者每人花了20块做大保健，心情舒畅(参与者健康+10,精力+20)");
+            screenText.text = "参与者每人花了20块做大保健，心情舒畅(参与者健康+10,精力+20)";
         }
         else
         {
-            GameManager.instance.SetDelayedText(1, "大家去到才发现不够钱做大保健，遗憾离场");
+            screenText.text= "大家去到才发现不够钱做大保健，遗憾离场";
         }
         GameManager.instance.player.finish = true;
         Finish();
