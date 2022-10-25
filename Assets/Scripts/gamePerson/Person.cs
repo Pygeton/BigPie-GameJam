@@ -191,7 +191,7 @@ public class Person : MonoBehaviour
                         a = 21;
                         break;
                     case 23:
-                        a = 21;
+                        a = 23;
                         break;
 
 
